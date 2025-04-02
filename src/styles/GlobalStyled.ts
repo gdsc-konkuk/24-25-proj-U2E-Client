@@ -44,4 +44,14 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: auto;
   }
+
+  //스크롤바
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2e3c55;
+    border-radius: 4px;
+  }
+
 `;

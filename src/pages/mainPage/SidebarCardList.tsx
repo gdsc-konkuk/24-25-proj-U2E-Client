@@ -80,14 +80,6 @@ const ListContainer = styled.div`
   overflow-y: auto;
   padding-right: 8px;
   z-index: 5;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #2e3c55;
-    border-radius: 4px;
-  }
 `;
 
 export default SidebarCardList;
