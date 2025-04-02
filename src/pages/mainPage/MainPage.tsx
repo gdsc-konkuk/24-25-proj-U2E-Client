@@ -3,14 +3,6 @@ import Header from "../../components/Header";
 import GlobeOverlay from "./GlobalOverlay";
 import SidebarCardList from "./SidebarCardList";
 
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(180deg, #040d21 0%, #0b1b3f 100%);
-  overflow: hidden;
-  position: relative;
-`;
-
 const MainPage = () => {
   return (
     <Container>
@@ -21,5 +13,13 @@ const MainPage = () => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(180deg, #040d21 0%, #0b1b3f 100%);
+  overflow: hidden;
+  position: relative;
+`;
 
 export default MainPage;

@@ -1,27 +1,6 @@
 import styled from "styled-components";
 import SidebarCard from "./SidebarCard";
 
-const ListWrapper = styled.div`
-  position: absolute;
-  top: 120px;
-  right: 40px;
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
-  padding-right: 8px;
-  z-index: 5;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #2e3c55;
-    border-radius: 4px;
-  }
-`;
-
 const data = [
   {
     title: "Bangladesh",
@@ -89,5 +68,26 @@ const SidebarCardList = () => {
     </ListWrapper>
   );
 };
+
+const ListWrapper = styled.div`
+  position: absolute;
+  top: 120px;
+  right: 40px;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 8px;
+  z-index: 5;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2e3c55;
+    border-radius: 4px;
+  }
+`;
 
 export default SidebarCardList;

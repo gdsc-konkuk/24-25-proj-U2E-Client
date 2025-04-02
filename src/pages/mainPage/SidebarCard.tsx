@@ -1,5 +1,20 @@
 import styled, { keyframes } from "styled-components";
 
+interface Props {
+  title: string;
+  description: string;
+  delay: number;
+}
+
+const SidebarCard = ({ title, description, delay }: Props) => {
+  return (
+    <Card delay={delay}>
+      <Title>{title}</Title>
+      <Description>{description}</Description>
+    </Card>
+  );
+};
+
 const fadeUp = keyframes`
   from {
     opacity: 0;
@@ -32,20 +47,6 @@ const Card = styled.div<{ delay: number }>`
     box-shadow: 0 12px 24px rgba(60, 157, 244, 0.3);
     border-color: #3c9df4;
   }
-
-  &:hover::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    padding: 1px;
-    background: linear-gradient(135deg, #3c9df4 0%, transparent 60%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
 `;
 
 const Title = styled.h3`
@@ -58,20 +59,5 @@ const Description = styled.p`
   font-size: 14px;
   color: #a9b4c2;
 `;
-
-interface Props {
-  title: string;
-  description: string;
-  delay: number;
-}
-
-const SidebarCard = ({ title, description, delay }: Props) => {
-  return (
-    <Card delay={delay}>
-      <Title>{title}</Title>
-      <Description>{description}</Description>
-    </Card>
-  );
-};
 
 export default SidebarCard;
