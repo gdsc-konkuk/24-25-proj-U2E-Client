@@ -1,20 +1,28 @@
 // src/styles/theme.ts
 const theme = {
   colors: {
-    background: "#040d21", // 배경색: 어두운 네이비/블랙
-    gradientBottom: "#0b1b3f", // 배경 하단 그라데이션 색
-
     primary: "#10B5D6", // 대표 포인트 컬러 (푸른빛)
     secondary: "#0063A6", // 보조색 (살짝 어두운 블루)
 
     textPrimary: "#ffffff", // 기본 텍스트색
-    textSecondary: "#a9b4c2", // 보조 텍스트색 (회청색)
+    textSecondary: "#B0EDFF", // 보조 텍스트색 (하늘색)
 
-    border: "#65D9FF", // 라인/테두리 색
-    cardBackground: "#0f1a2c", // 카드나 박스에 쓰기 좋은 배경
+    border: "#65D9FF", // 테두리 색
+
+    pin: "#FFEB78", // 핀 색상
 
     white: "#ffffff",
     black: "#000000",
+
+    //그레이 스케일
+    gray: {
+      50: "#F5F5F5", // 가장 밝은 회색
+      100: "#DDDDDD",
+      200: "#BBBBBB",
+      300: "#999999",
+      500: "#666666",
+      900: "#111111", // 가장 어두운 회색
+    },
   },
 };
 
