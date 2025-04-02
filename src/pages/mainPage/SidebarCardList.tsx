@@ -56,7 +56,7 @@ const data = [
 
 const SidebarCardList = () => {
   return (
-    <ListWrapper>
+    <ListContainer>
       {data.map((item, index) => (
         <SidebarCard
           key={index}
@@ -65,11 +65,11 @@ const SidebarCardList = () => {
           delay={index * 80}
         />
       ))}
-    </ListWrapper>
+    </ListContainer>
   );
 };
 
-const ListWrapper = styled.div`
+const ListContainer = styled.div`
   position: absolute;
   top: 120px;
   right: 40px;

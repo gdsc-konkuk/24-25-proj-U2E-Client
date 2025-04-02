@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 const GlobeOverlay = () => {
-  return <OverlayWrapper>{/* 핀, 툴팁 등 배치 가능 */}</OverlayWrapper>;
+  return <OverlayContainer>{/* 핀, 툴팁 등 배치 가능 */}</OverlayContainer>;
 };
 
-const OverlayWrapper = styled.div`
+const OverlayContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;

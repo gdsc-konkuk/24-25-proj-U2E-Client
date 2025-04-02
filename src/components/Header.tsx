@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 const Header = () => {
   return (
-    <HeaderWrapper>
+    <HeaderContainer>
       <div>About US</div>
       <Divider></Divider>
       <div>U2E</div>
-    </HeaderWrapper>
+    </HeaderContainer>
   );
 };
 
@@ -16,7 +16,7 @@ const Divider = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const HeaderWrapper = styled.div`
+const HeaderContainer = styled.div`
   position: absolute;
   top: 20px;
   right: 40px;
