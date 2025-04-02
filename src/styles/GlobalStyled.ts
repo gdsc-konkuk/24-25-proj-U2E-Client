@@ -16,8 +16,9 @@ export const GlobalStyle = createGlobalStyle`
   body {
   height: 100%;
   margin: 0;
-  font-family: sans-serif;
-  background: linear-gradient(180deg, #040d21 0%,rgb(14, 42, 108) 100%);
+  font-family: 'Tektur', sans-serif;
+  font-weight: 600;
+  background: linear-gradient(180deg, #040d21 0%,#0e2a6c 100%);
   color: #fff;
   overflow: hidden;
 }
