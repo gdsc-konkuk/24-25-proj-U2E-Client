@@ -8,7 +8,7 @@ interface Props {
 
 const SidebarCard = ({ title, description, delay }: Props) => {
   return (
-    <Card delay={delay}>
+    <Card $delay={delay}>
       <Title>{title}</Title>
       <Description>{description}</Description>
     </Card>
@@ -26,7 +26,7 @@ const fadeUp = keyframes`
   }
 `;
 
-const Card = styled.div<{ delay: number }>`
+const Card = styled.div<{ $delay: number }>`
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid #2e3c55;
   padding: 16px;
