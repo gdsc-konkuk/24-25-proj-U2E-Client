@@ -39,7 +39,8 @@ const Card = styled.div<{ delay: number }>`
   transform-style: preserve-3d;
   position: relative;
   animation: ${fadeUp} 0.6s ease-out forwards;
-  animation-delay: ${({ delay }) => delay}ms;
+  animation-delay: ${({ $delay }) => `${$delay}ms`};
+  cursor: pointer;
   opacity: 0;
 
   &:hover {
