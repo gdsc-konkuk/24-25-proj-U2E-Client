@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import SidebarCard from "./SidebarCard";
+import { colFlex } from "../../styles/flexStyles";
 
 const data = [
   {
@@ -73,12 +74,11 @@ const ListContainer = styled.div`
   position: absolute;
   top: 120px;
   right: 40px;
-  height: 70vh;
-  display: flex;
-  flex-direction: column;
+  height: 90vh;
+  ${colFlex({ align: "center", justify: "center" })}
   gap: 16px;
   overflow-y: auto;
-  padding-right: 8px;
+  padding: 5px 10px;
   z-index: 5;
 `;
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { rowFlex } from "../styles/flexStyles";
 
 const Header = () => {
   return (
@@ -20,8 +21,7 @@ const HeaderContainer = styled.div`
   position: absolute;
   top: 20px;
   right: 40px;
-  display: flex;
-  align-items: center;
+  ${rowFlex({ align: "center" })}
   gap: 24px;
   font-size: 16px;
   font-weight: 500;

@@ -34,7 +34,7 @@ const Card = styled.div<{ $delay: number }>`
   width: 300px;
   color: white;
   backdrop-filter: blur(4px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
   transform-style: preserve-3d;
   position: relative;
@@ -45,7 +45,7 @@ const Card = styled.div<{ $delay: number }>`
 
   &:hover {
     transform: translateY(-6px) scale(1.02) perspective(600px) rotateX(2deg);
-    box-shadow: 0 12px 24px rgba(60, 157, 244, 0.3);
+    box-shadow: 0 6px 12px rgba(60, 157, 244, 0.3);
     border-color: #3c9df4;
   }
 `;
