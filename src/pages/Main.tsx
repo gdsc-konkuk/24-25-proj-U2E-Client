@@ -1,13 +1,11 @@
 import styled from "styled-components";
-import Header from "../../components/Header";
-import GlobeOverlay from "./GlobalOverlay";
-import SidebarCardList from "./SidebarCardList";
+import GlobeOverlay from "../components/sidebar/GlobalOverlay";
+import SidebarCardList from "../components/sidebar/SidebarCardList";
 
 const MainPage = () => {
   return (
     <Container>
-      <Header />
-      {/* 3D 지구본 영역은 여기에 배치 */}
+      {/* 3D 지구본 영역*/}
       <GlobeOverlay />
       <SidebarCardList />
     </Container>

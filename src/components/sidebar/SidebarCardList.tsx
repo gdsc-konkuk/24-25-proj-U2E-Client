@@ -72,10 +72,10 @@ const SidebarCardList = () => {
 
 const ListContainer = styled.div`
   position: absolute;
-  top: 120px;
+  top: 20px;
   right: 40px;
-  height: 90vh;
-  ${colFlex({ align: "center", justify: "center" })}
+  height: 80vh;
+  ${colFlex({ align: "center", justify: "start" })}
   gap: 16px;
   overflow-y: auto;
   padding: 5px 10px;

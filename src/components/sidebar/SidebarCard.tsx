@@ -30,21 +30,18 @@ const Card = styled.div<{ $delay: number }>`
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid #2e3c55;
   padding: 16px;
-  border-radius: 12px;
+  border-radius: 10px;
   width: 300px;
   color: white;
   backdrop-filter: blur(4px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-  transform-style: preserve-3d;
   position: relative;
   animation: ${fadeUp} 0.6s ease-out forwards;
   animation-delay: ${({ $delay }) => `${$delay}ms`};
   cursor: pointer;
   opacity: 0;
-
   &:hover {
-    transform: translateY(-6px) scale(1.02) perspective(600px) rotateX(2deg);
+    transform: 0.3s;
     box-shadow: 0 6px 12px rgba(60, 157, 244, 0.3);
     border-color: #3c9df4;
   }
