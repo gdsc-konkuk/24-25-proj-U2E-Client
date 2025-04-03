@@ -1,14 +1,16 @@
-import AppRouter from "./routes/AppRouter";
-import { GlobalStyle } from "./styles/GlobalStyled";
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/Router";
+import { GlobalStyle } from "./styles/globalStyled";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <AppRouter />
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
+
 export default App;
