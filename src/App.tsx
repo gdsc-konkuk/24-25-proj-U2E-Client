@@ -1,5 +1,16 @@
+import { ThemeProvider } from "styled-components";
+import theme from "./styles/theme";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/Router";
+import { GlobalStyle } from "./styles/globalStyled";
+
 function App() {
-  return <h1>Hi there! This is the U2E web site.</h1>;
+  return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 export default App;
