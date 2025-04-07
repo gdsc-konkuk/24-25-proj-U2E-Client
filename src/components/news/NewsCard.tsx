@@ -1,14 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 interface Props {
+  newsId: number;
   title: string;
   description: string;
   delay: number;
 }
 
-function NewsCard({ title, description, delay }: Props) {
+function NewsCard({ newsId, title, description, delay }: Props) {
+  const navigate = useNavigate();
   const redirectToNewsDetail = () => {
     // 뉴스 상세페이지로 이동
+    navigate(`/news-detail/:${newsId}`);
   };
 
   return (

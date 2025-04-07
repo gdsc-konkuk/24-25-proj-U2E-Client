@@ -4,51 +4,61 @@ import NewsCard from "./NewsCard";
 
 const data = [
   {
+    newsId: 1,
     title: "Bangladesh",
     description:
       "Frequently experiences devastating floods and rising sea levels, threatening millions living in low-lying coastal areas.",
   },
   {
+    newsId: 2,
     title: "Australia",
     description:
       "Faces extreme heatwaves and increasing frequency of bushfires due to prolonged droughts and rising temperatures.",
   },
   {
+    newsId: 3,
     title: "Maldives",
     description:
       "One of the most vulnerable nations to sea level rise, with the risk of being submerged in the coming decades.",
   },
   {
+    newsId: 4,
     title: "Bangladesh",
     description:
       "Frequently experiences devastating floods and rising sea levels, threatening millions living in low-lying coastal areas.",
   },
   {
+    newsId: 5,
     title: "South Korea",
     description:
       "Experiencing increasing typhoon activity and seasonal flood risks due to rising ocean temperatures.",
   },
   {
+    newsId: 6,
     title: "Japan",
     description:
       "Susceptible to earthquakes and tsunamis, with coastal cities vulnerable to sea-level rise.",
   },
   {
+    newsId: 7,
     title: "India",
     description:
       "Facing rising heatwaves and water scarcity in densely populated regions.",
   },
   {
+    newsId: 8,
     title: "Philippines",
     description:
       "Frequently hit by powerful typhoons, with rural communities at high risk.",
   },
   {
+    newsId: 9,
     title: "Indonesia",
     description:
       "Experiencing rising sea levels and increased coastal flooding threatening low-lying areas.",
   },
   {
+    newsId: 10,
     title: "Vietnam",
     description:
       "Delta regions at high risk of inundation due to sea level rise and increased rainfall.",
@@ -73,6 +83,7 @@ function NewsCardList({ setIsShowSidebar }: Props) {
       {data.map((item, index) => (
         <NewsCard
           key={index}
+          newsId={item.newsId}
           title={item.title}
           description={item.description}
           delay={index * 80}
