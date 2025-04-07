@@ -47,6 +47,7 @@ const NewsDetail = () => {
 };
 
 const Container = styled.div`
+  padding-top: 82px;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);

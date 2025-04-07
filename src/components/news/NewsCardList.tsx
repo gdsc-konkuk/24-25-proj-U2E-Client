@@ -104,7 +104,7 @@ const Container = styled.div`
   ${colFlex({ align: "center", justify: "start" })}
   gap: 16px;
   overflow-y: auto;
-  padding: 5px 10px;
+  padding: 25px 10px;
   z-index: 5;
   background: rgba(0, 0, 0, 0.2);
 `;
