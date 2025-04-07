@@ -1,29 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 interface Props {
+  newsId: number;
   title: string;
   description: string;
   delay: number;
-  setIsShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SidebarCard = ({
-  title,
-  description,
-  delay,
-  setIsShowSidebar,
-}: Props) => {
-  const showNewsList = () => {
-    setIsShowSidebar(false);
+function NewsCard({ newsId, title, description, delay }: Props) {
+  const navigate = useNavigate();
+  const redirectToNewsDetail = () => {
+    // 뉴스 상세페이지로 이동
+    navigate(`/news-detail/:${newsId}`);
   };
 
   return (
-    <Card $delay={delay} onClick={showNewsList}>
+    <Card $delay={delay} onClick={redirectToNewsDetail}>
       <Title>{title}</Title>
       <Description>{description}</Description>
     </Card>
   );
-};
+}
 
 const fadeUp = keyframes`
   from {
@@ -41,7 +39,7 @@ const Card = styled.div<{ $delay: number }>`
   border: 1px solid #2e3c55;
   padding: 16px;
   border-radius: 10px;
-  width: 300px;
+  width: 80%;
   color: white;
   backdrop-filter: blur(4px);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
@@ -68,4 +66,4 @@ const Description = styled.p`
   color: #a9b4c2;
 `;
 
-export default SidebarCard;
+export default NewsCard;
