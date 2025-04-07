@@ -97,7 +97,7 @@ export default NewsCardList;
 
 const Container = styled.div`
   position: absolute;
-  top: 20px;
+  top: 100px;
   right: 40px;
   height: 80vh;
   width: 60%;

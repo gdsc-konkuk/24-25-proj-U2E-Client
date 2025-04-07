@@ -77,7 +77,7 @@ const SidebarCardList = ({ setIsShowSidebar }: Props) => {
 
 const Container = styled.div`
   position: absolute;
-  top: 20px;
+  top: 100px;
   right: 40px;
   height: 80vh;
   ${colFlex({ align: "center", justify: "start" })}
