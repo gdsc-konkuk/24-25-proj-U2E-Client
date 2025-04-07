@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import GlobeOverlay from "../components/sidebar/GlobalOverlay";
 import SidebarCardList from "../components/sidebar/SidebarCardList";
+import { useState } from "react";
+import NewsCardList from "../components/news/NewsCardList";
 
 const MainPage = () => {
+  const [isShowSidebar, setIsShowSidebar] = useState<boolean>(true);
+
   return (
     <Container>
       {/* 3D 지구본 영역*/}
       <GlobeOverlay />
-      <SidebarCardList />
+      {isShowSidebar ? (
+        <SidebarCardList setIsShowSidebar={setIsShowSidebar} />
+      ) : (
+        <NewsCardList setIsShowSidebar={setIsShowSidebar} />
+      )}
     </Container>
   );
 };

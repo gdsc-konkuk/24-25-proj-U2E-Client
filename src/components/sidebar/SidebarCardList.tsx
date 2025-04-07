@@ -55,7 +55,11 @@ const data = [
   },
 ];
 
-const SidebarCardList = () => {
+interface Props {
+  setIsShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SidebarCardList = ({ setIsShowSidebar }: Props) => {
   return (
     <ListContainer>
       {data.map((item, index) => (
@@ -64,6 +68,7 @@ const SidebarCardList = () => {
           title={item.title}
           description={item.description}
           delay={index * 80}
+          setIsShowSidebar={setIsShowSidebar}
         />
       ))}
     </ListContainer>

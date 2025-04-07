@@ -4,11 +4,21 @@ interface Props {
   title: string;
   description: string;
   delay: number;
+  setIsShowSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SidebarCard = ({ title, description, delay }: Props) => {
+const SidebarCard = ({
+  title,
+  description,
+  delay,
+  setIsShowSidebar,
+}: Props) => {
+  const showNewsList = () => {
+    setIsShowSidebar(false);
+  };
+
   return (
-    <Card $delay={delay}>
+    <Card $delay={delay} onClick={showNewsList}>
       <Title>{title}</Title>
       <Description>{description}</Description>
     </Card>
