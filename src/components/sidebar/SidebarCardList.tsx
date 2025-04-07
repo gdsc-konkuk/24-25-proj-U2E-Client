@@ -61,7 +61,7 @@ interface Props {
 
 const SidebarCardList = ({ setIsShowSidebar }: Props) => {
   return (
-    <ListContainer>
+    <Container>
       {data.map((item, index) => (
         <SidebarCard
           key={index}
@@ -71,11 +71,11 @@ const SidebarCardList = ({ setIsShowSidebar }: Props) => {
           setIsShowSidebar={setIsShowSidebar}
         />
       ))}
-    </ListContainer>
+    </Container>
   );
 };
 
-const ListContainer = styled.div`
+const Container = styled.div`
   position: absolute;
   top: 20px;
   right: 40px;
