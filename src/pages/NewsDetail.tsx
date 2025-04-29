@@ -26,6 +26,7 @@ const data = {
 
     Experts suggest that the intensity and unusual length of the storm's path could place it among the strongest tornado events ever documented in the Midwest. Residents are being urged to heed warnings and stay clear of damaged areas as recovery and cleanup efforts intensify in the coming days.`,
 };
+
 const NewsDetail = () => {
   const [chatOpen, setChatOpen] = useState(true);
 
