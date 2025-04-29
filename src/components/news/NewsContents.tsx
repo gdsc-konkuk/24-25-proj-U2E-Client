@@ -30,7 +30,7 @@ function NewsContents({
 }
 
 const Container = styled.article`
-  padding: 10px 20px;
+  padding: 30px 50px;
   width: 70%;
   height: 100%;
   ${colFlex({ align: "center" })}
