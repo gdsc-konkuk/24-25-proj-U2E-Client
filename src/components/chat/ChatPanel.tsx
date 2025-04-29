@@ -2,6 +2,7 @@ import styled, { css, keyframes } from "styled-components";
 import UserInput from "./UserInput";
 import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
+import ChatPanelFrameSvg from "../../assets/svgs/ChatPanelFrame.svg?react";
 
 interface ChatPanelProps {
   isVisible: boolean;
@@ -11,18 +12,27 @@ interface ChatPanelProps {
 function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
     <Container isVisible={isVisible}>
-      <ChatHeader>
-        <ChatTitle>채팅</ChatTitle>
-        <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
-      </ChatHeader>
+      <SVGFrameWrapper>
+        <ChatPanelFrameSvg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="none"
+        />
+      </SVGFrameWrapper>
+      <ContentContainer>
+        <ChatHeader>
+          <ChatTitle>채팅</ChatTitle>
+          <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
+        </ChatHeader>
 
-      <MessageArea>
-        <Comments />
-      </MessageArea>
+        <MessageArea>
+          <Comments />
+        </MessageArea>
 
-      <InputArea>
-        <UserInput />
-      </InputArea>
+        <InputArea>
+          <UserInput />
+        </InputArea>
+      </ContentContainer>
     </Container>
   );
 }
@@ -57,10 +67,8 @@ const Container = styled.div<{ isVisible: boolean }>`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 400px;
-  height: 500px;
-  border: 1px solid white;
-  ${colFlex({ justify: "space", align: "center" })}
+  width: 382px;
+  height: 552px;
   z-index: 1000;
   overflow: hidden;
 
@@ -72,6 +80,24 @@ const Container = styled.div<{ isVisible: boolean }>`
       : css`
           animation: ${accordionOut} 0.3s ease-in forwards;
         `}
+`;
+
+const SVGFrameWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  ${colFlex({ justify: "space", align: "center" })}
+  z-index: 1;
 `;
 
 const ChatHeader = styled.header`
@@ -105,15 +131,20 @@ const CloseButton = styled.button`
 const MessageArea = styled.div`
   width: 100%;
   padding: 15px;
-  height: 80%;
-  background-color: #c4c4c4;
+  flex: 1;
+  background-color: rgba(196, 196, 196, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  margin-bottom: 15px;
 `;
 
 const InputArea = styled.div`
   width: 100%;
   padding: 15px;
-  border-top: 1px solid #e2e8f0;
-  background-color: #665f5f;
+  border-top: 1px solid rgba(226, 232, 240, 0.3);
+  background-color: rgba(102, 95, 95, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
 `;
 
 export default ChatPanel;
