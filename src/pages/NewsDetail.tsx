@@ -2,7 +2,7 @@ import styled from "styled-components";
 import DetailAnimation from "../components/animation/DetailAnimation";
 import { colFlex, rowFlex } from "../styles/flexStyles";
 import NewsContents from "../components/news/NewsContents";
-import Chat from "../components/chat/Chat";
+import ChatPanel from "../components/chat/ChatPanel";
 import { useState } from "react";
 
 const data = {
@@ -35,7 +35,7 @@ const NewsDetail = () => {
       <DetailAnimation />
       <ContentsContainer>
         <NewsContents {...data} onToggleChat={() => setIsChatOpen(true)} />
-        <Chat isVisible={isChatOpen} setIsChatOpen={setIsChatOpen} />
+        <ChatPanel isVisible={isChatOpen} setIsChatOpen={setIsChatOpen} />
       </ContentsContainer>
     </Container>
   );

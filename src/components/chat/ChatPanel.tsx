@@ -3,12 +3,12 @@ import UserInput from "./UserInput";
 import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 
-interface ChatProps {
+interface ChatPanelProps {
   isVisible: boolean;
   setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Chat({ isVisible, setIsChatOpen }: ChatProps) {
+function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
     <Container isVisible={isVisible}>
       <ChatHeader>
@@ -95,7 +95,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   width: 24px;
   height: 24px;
-  ${rowFlex({ justify: "center", align: "center" })}
+  ${colFlex({ justify: "center", align: "center" })}
 
   &:hover {
     opacity: 0.8;
@@ -116,4 +116,4 @@ const InputArea = styled.div`
   background-color: #665f5f;
 `;
 
-export default Chat;
+export default ChatPanel;
