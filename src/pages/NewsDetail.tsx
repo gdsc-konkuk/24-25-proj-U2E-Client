@@ -28,20 +28,14 @@ const data = {
 };
 
 const NewsDetail = () => {
-  const [chatOpen, setChatOpen] = useState(true);
-
-  const toggleChat = () => {
-    setChatOpen((prev) => !prev);
-  };
+  const [isChatOpen, setIsChatOpen] = useState(true);
 
   return (
     <Container>
       <DetailAnimation />
       <ContentsContainer>
-        <NewsContents {...data} onToggleChat={toggleChat} />
-        <ChatWrapper chatOpen={chatOpen}>
-          <Chat />
-        </ChatWrapper>
+        <NewsContents {...data} onToggleChat={() => setIsChatOpen(true)} />
+        <Chat isVisible={isChatOpen} setIsChatOpen={setIsChatOpen} />
       </ContentsContainer>
     </Container>
   );
@@ -59,12 +53,6 @@ const ContentsContainer = styled.section`
   width: 100%;
   height: 60%;
   ${rowFlex({ justify: "space", align: "center" })}
-`;
-
-const ChatWrapper = styled.div<{ chatOpen: boolean }>`
-  height: ${({ chatOpen }) => (chatOpen ? "650px" : "0px")};
-  transition: height 0.3s ease;
-  overflow: hidden;
 `;
 
 export default NewsDetail;
