@@ -116,10 +116,9 @@ const TitleContainer = styled.header`
 
 const Title = styled.p``;
 
-const ShowSidebarIcon = styled.div`
+const ShowSidebarIcon = styled.span`
   cursor: pointer;
   &:hover {
-    transform: 0.3s;
-    box-shadow: 0 6px 12px rgba(60, 157, 244, 0.3);
+    text-shadow: 0 5px 10px rgba(60, 157, 244, 0.8);
   }
 `;
