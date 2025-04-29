@@ -20,7 +20,7 @@ function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
       </SVGFrameWrapper>
       <ContentContainer>
         <ChatHeader>
-          <ChatTitle>채팅</ChatTitle>
+          <ChatTitle>{`>> Comments`}</ChatTitle>
           <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
         </ChatHeader>
 
@@ -99,8 +99,7 @@ const ContentContainer = styled.div`
 
 const ChatHeader = styled.header`
   width: 100%;
-  padding: 15px;
-  background-color: #4a5568;
+  padding: 5px;
   color: white;
   ${rowFlex({ justify: "space", align: "center" })}
 `;
