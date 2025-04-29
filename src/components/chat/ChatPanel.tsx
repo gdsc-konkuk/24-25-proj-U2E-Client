@@ -1,5 +1,4 @@
 import styled, { css, keyframes } from "styled-components";
-import UserInput from "./UserInput";
 import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import ChatPanelFrameSvg from "../../assets/svgs/ChatPanelFrame.svg?react";
@@ -29,9 +28,7 @@ function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
           <Comments />
         </MessageArea>
 
-        <InputArea>
-          <UserInput />
-        </InputArea>
+        <UserInput />
       </ContentContainer>
     </Container>
   );
@@ -138,13 +135,14 @@ const MessageArea = styled.div`
   margin-bottom: 15px;
 `;
 
-const InputArea = styled.div`
+const UserInput = styled.input`
   width: 100%;
-  padding: 15px;
-  border-top: 1px solid rgba(226, 232, 240, 0.3);
-  background-color: rgba(102, 95, 95, 0.2);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
+  height: 50px;
+  padding: 10px 10px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  ${rowFlex({ justify: "center", align: "center" })};
 `;
 
 export default ChatPanel;
