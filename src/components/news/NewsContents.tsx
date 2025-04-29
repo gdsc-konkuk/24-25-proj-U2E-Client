@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 
-interface Props {
+interface NewsContentsProps {
   location: string;
   title: string;
   mainContents: string;
@@ -15,7 +15,7 @@ function NewsContents({
   mainContents,
   subContents,
   onToggleChat,
-}: Props) {
+}: NewsContentsProps) {
   return (
     <Container>
       <HeaderContainer>
