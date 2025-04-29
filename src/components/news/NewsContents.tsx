@@ -34,7 +34,6 @@ const Container = styled.article`
   width: 70%;
   height: 100%;
   ${colFlex({ align: "center" })}
-  border: 1px solid white;
 `;
 
 const HeaderContainer = styled.div`
