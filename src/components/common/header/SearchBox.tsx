@@ -4,8 +4,37 @@ import styled from "styled-components";
 import SearchIcon from "../../../assets/svgs/search.svg?react";
 import { rowFlex } from "../../../styles/flexStyles";
 import theme from "../../../styles/theme";
+import { useSearchParams } from "react-router-dom";
 
-const Wrapper = styled.div`
+const SearchBox = () => {
+  const [region, setRegion] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newParams = new URLSearchParams(searchParams);
+    if (region.trim() !== "") {
+      newParams.set("query", region.trim());
+    } else {
+      newParams.delete("query");
+    }
+    setSearchParams(newParams);
+  };
+
+  return (
+    <Wrapper onSubmit={handleSubmit}>
+      <SearchIcon width={24} height={24} />
+
+      <Input
+        placeholder=""
+        value={region}
+        onChange={(e) => setRegion(e.target.value)}
+      />
+    </Wrapper>
+  );
+};
+
+const Wrapper = styled.form`
   width: 300px;
   max-width: 350px;
   height: 45px;
@@ -15,7 +44,7 @@ const Wrapper = styled.div`
 
   border-radius: 999px;
   margin: 0 40px;
-  color: ${theme.colors.textSecondary};
+  color: ${theme.colors.primary};
 
   background: rgba(0, 255, 255, 0.05);
   border: 1px solid rgba(0, 204, 255, 0.3);
@@ -27,27 +56,13 @@ const Input = styled.input`
   background: transparent;
   border: none;
   outline: none;
-  color: ${theme.colors.white};
+  color: ${theme.colors.textSecondary};
   flex: 1;
+  font-family: "Tektur", sans-serif;
   font-size: 14px;
   &::placeholder {
     color: #00f0ff99;
   }
 `;
-
-const SearchBox = () => {
-  const [query, setQuery] = useState("");
-
-  return (
-    <Wrapper>
-      <SearchIcon width={24} height={24} />
-      <Input
-        placeholder="Search..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-    </Wrapper>
-  );
-};
 
 export default SearchBox;
