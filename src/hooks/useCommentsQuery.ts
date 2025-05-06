@@ -8,7 +8,7 @@ import { CreateCommentRequest } from "../types/request";
  * @param newsId 뉴스 ID
  * @returns 댓글 조회 쿼리 결과 객체
  */
-export const useCommentsQuery = (newsId: string | number) => {
+export const useCommentsQuery = (newsId: number) => {
   return useQuery({
     queryKey: ["comments", newsId],
     queryFn: () => fetchComments(newsId),
