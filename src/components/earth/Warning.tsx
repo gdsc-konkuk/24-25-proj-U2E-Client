@@ -110,13 +110,13 @@ const MiniCard = styled.div<{ $visible: boolean }>`
   &::after {
     content: "";
     position: absolute;
-    left: -6px;
+    left: -10px;
     top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-    width: 30px;
-    height: 30px;
-    background: rgba(0, 8, 23, 0.75);
-    z-index: 999;
+    transform: translateY(-50%);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid rgba(0, 8, 23, 0.75);
+    border-left: none;
   }
 `;
 
