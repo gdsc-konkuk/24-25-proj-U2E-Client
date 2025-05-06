@@ -32,7 +32,9 @@ const NewsDetail = () => {
 
   return (
     <Container>
-      <DetailAnimation />
+      <AnimationWrapper>
+        <DetailAnimation dropNum={400} />
+      </AnimationWrapper>
       <ContentsContainer>
         <NewsContents {...data} onToggleChat={() => setIsChatOpen(true)} />
         <ChatPanel isVisible={isChatOpen} setIsChatOpen={setIsChatOpen} />
@@ -47,6 +49,11 @@ const Container = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
   ${colFlex({ justify: "start", align: "center" })}
+`;
+
+const AnimationWrapper = styled.div`
+  width: 100%;
+  height: 400px;
 `;
 
 const ContentsContainer = styled.section`

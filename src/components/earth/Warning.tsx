@@ -1,25 +1,43 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 import WarningIcon from "../../assets/svgs/Warning.svg?react";
 import { rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
+import DetailAnimation from "../animation/DetailAnimation";
 
 const Warning = () => {
   const [hovered, setHovered] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setHovered(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Container>
-      <IconWrapper
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
+      <IconWrapper ref={wrapperRef} onMouseEnter={() => setHovered(true)}>
         <GlowLayer $visible={hovered} />
         <WarningIconStyled />
         <MiniCard $visible={hovered}>
           <Title>
             South Korea <Emoji>🌧️</Emoji>
           </Title>
+          <AnimationContainer>
+            <DetailAnimation dropNum={50} dropSpeed={2} boundary={20} />
+          </AnimationContainer>
         </MiniCard>
       </IconWrapper>
     </Container>
@@ -118,6 +136,12 @@ const MiniCard = styled.div<{ $visible: boolean }>`
     border-right: 10px solid rgba(0, 8, 23, 0.75);
     border-left: none;
   }
+`;
+
+const AnimationContainer = styled.div`
+  width: 100%;
+  height: 65px; /* MiniCard 내부에서 적절한 높이로 제한 */
+  margin-top: 12px;
 `;
 
 const Title = styled.div`
