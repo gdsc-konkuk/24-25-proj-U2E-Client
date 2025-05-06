@@ -11,7 +11,7 @@ interface ChatPanelProps {
 
 function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
-    <Container isVisible={isVisible}>
+    <Container $isVisible={isVisible}>
       <SVGFrameWrapper>
         <ChatPanelFrameSvg width="100%" preserveAspectRatio="none" />
       </SVGFrameWrapper>
@@ -53,7 +53,7 @@ const accordionOut = keyframes`
   }
 `;
 
-const Container = styled.div<{ isVisible: boolean }>`
+const Container = styled.div<{ $isVisible: boolean }>`
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -62,8 +62,8 @@ const Container = styled.div<{ isVisible: boolean }>`
   z-index: 1000;
   overflow: hidden;
 
-  ${({ isVisible }) =>
-    isVisible
+  ${({ $isVisible }) =>
+    $isVisible
       ? css`
           animation: ${accordionIn} 0.3s ease-in forwards;
         `
