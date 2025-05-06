@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import RainIcon from "../../../assets/svgs/climate/Rain.svg?react";
@@ -38,26 +38,23 @@ const FilterBar = () => {
   }, [activeFilter]);
 
   return (
-    <FilterConatiner>
-      {filters.map((filter) => {
-        const Icon = filter.icon;
+    <FilterContainer>
+      {filters.map(({ id, icon: Icon }) => {
         return (
           <IconWrapper
-            key={filter.id}
-            $active={activeFilter === filter.id}
-            onClick={() =>
-              setActiveFilter(activeFilter === filter.id ? null : filter.id)
-            }
+            key={id}
+            $active={activeFilter === id}
+            onClick={() => setActiveFilter(activeFilter === id ? null : id)}
           >
             <Icon />
           </IconWrapper>
         );
       })}
-    </FilterConatiner>
+    </FilterContainer>
   );
 };
 
-const FilterConatiner = styled.div`
+const FilterContainer = styled.div`
   width: fit-content;
   height: 45px;
   gap: 8px;

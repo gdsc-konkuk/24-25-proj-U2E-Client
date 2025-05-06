@@ -26,6 +26,7 @@ const Divider = styled.div`
   height: 16px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
+
 const RightGroup = styled.div`
   ${rowFlex({ align: "center" })}
   gap: 12px;

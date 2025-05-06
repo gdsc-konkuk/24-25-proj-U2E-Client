@@ -1,4 +1,3 @@
-// src/components/common/WarningTooltip.tsx
 import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -10,24 +9,24 @@ const Warning = () => {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <Wrapper>
+    <Container>
       <IconWrapper
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
         <GlowLayer $visible={hovered} />
         <WarningIconStyled />
-        <Minicard $visible={hovered}>
+        <MiniCard $visible={hovered}>
           <Title>
             South Korea <Emoji>🌧️</Emoji>
           </Title>
-        </Minicard>
+        </MiniCard>
       </IconWrapper>
-    </Wrapper>
+    </Container>
   );
 };
 
-const Wrapper = styled.div`
+const Container = styled.div`
   width: 80%;
   height: 100%;
   ${rowFlex({ align: "center", justify: "center" })}
@@ -48,6 +47,7 @@ const IconWrapper = styled.div`
     pointer-events: auto;
   }
 `;
+
 const glowFade = keyframes`
   0% {
     opacity: 0.6;
@@ -87,7 +87,7 @@ const WarningIconStyled = styled(WarningIcon)`
   z-index: 10;
 `;
 
-const Minicard = styled.div<{ $visible: boolean }>`
+const MiniCard = styled.div<{ $visible: boolean }>`
   position: absolute;
   left: 80px;
   top: -30px;
