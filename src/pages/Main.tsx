@@ -3,13 +3,14 @@ import GlobeOverlay from "../components/sidebar/GlobalOverlay";
 import SidebarCardList from "../components/sidebar/SidebarCardList";
 import { useState } from "react";
 import NewsCardList from "../components/news/NewsCardList";
+import Earth from "../components/earth/Earth";
 
 const MainPage = () => {
   const [isShowSidebar, setIsShowSidebar] = useState<boolean>(true);
 
   return (
     <Container>
-      {/* 3D 지구본 영역*/}
+      <Earth /> {/* 3D 지구본 영역*/}
       <GlobeOverlay />
       {isShowSidebar ? (
         <SidebarCardList setIsShowSidebar={setIsShowSidebar} />

@@ -1,16 +1,22 @@
 import styled from "styled-components";
-import { rowFlex } from "../../styles/flexStyles";
+import { rowFlex } from "../../../styles/flexStyles";
 import { useNavigate } from "react-router-dom";
+import FilterBar from "./FilterBar";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const navigate = useNavigate();
   return (
     <HeaderContainer>
-      <LogoContainer>
-        <div>About US</div>
-        <Divider></Divider>
-        <div onClick={() => navigate("/")}>U2E</div>
-      </LogoContainer>
+      <FilterBar />
+      <RightGroup>
+        <SearchBox />
+        <LogoContainer>
+          <div>About US</div>
+          <Divider></Divider>
+          <div onClick={() => navigate("/")}>U2E</div>
+        </LogoContainer>
+      </RightGroup>
     </HeaderContainer>
   );
 };
@@ -21,12 +27,17 @@ const Divider = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 `;
 
+const RightGroup = styled.div`
+  ${rowFlex({ align: "center" })}
+  gap: 12px;
+`;
+
 const HeaderContainer = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
   height: 82px;
-  ${rowFlex({ align: "center", justify: "end" })}
+  ${rowFlex({ align: "center", justify: "space" })}
   padding: 0 32px;
   z-index: 999;
   background: transparent;
@@ -34,7 +45,7 @@ const HeaderContainer = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  ${rowFlex({ align: "center", justify: "end" })}
+  ${rowFlex({ align: "center" })}
   gap: 24px;
   div {
     cursor: pointer;
