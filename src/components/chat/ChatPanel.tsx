@@ -128,7 +128,6 @@ const MessageArea = styled.div`
   width: 100%;
   padding: 15px;
   flex: 1;
-  background-color: rgba(196, 196, 196, 0.1);
   backdrop-filter: blur(5px);
   border-radius: 8px;
   margin-bottom: 15px;
