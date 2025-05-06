@@ -21,7 +21,8 @@ export const handlers = [
               userId: 2,
               userName: "사용자2",
               commentId: 2,
-              contents: "기후위기가 정말 심각하네요.",
+              contents:
+                "기후위기가 정말 심각하네요. 오늘부터 분리수거 열심히 해야겠어요.",
             },
             {
               userId: 3,
@@ -33,7 +34,8 @@ export const handlers = [
               userId: 4,
               userName: "사용자4",
               commentId: 4,
-              contents: "기후위기 해결을 위해 모두가 함께 노력해야 합니다.",
+              contents:
+                "기후위기 해결을 위해 모두가 함께 노력해야 합니다. 지금 이럴 때가 아닙니다. 모두들 분리수거 동참합시다.",
             },
             {
               userId: 4,
