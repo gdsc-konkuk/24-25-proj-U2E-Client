@@ -1,4 +1,16 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 
-createRoot(document.getElementById("root") as HTMLElement).render(<App />);
+if (import.meta.env.VITE_APP_NODE === "development") {
+  import("./mocks/browser")
+    .then(({ worker }) => worker.start())
+    .then(() => {
+      renderApp();
+    });
+} else {
+  renderApp();
+}
+
+function renderApp() {
+  createRoot(document.getElementById("root") as HTMLElement).render(<App />);
+}
