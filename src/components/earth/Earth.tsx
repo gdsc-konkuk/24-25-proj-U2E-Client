@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import Warning from "./Warning";
-import E from "./E";
+//import Warning from "./Warning";
+
+import Globe from "./Globe";
 
 const Earth = () => {
   return (
     <EarthContainer>
       {/*<Warning />*/}
-      <E />
+      <Globe />
     </EarthContainer>
   );
 };

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import getStarfield from "./stars";
-import { drawThreeGeo } from "./threeGEO";
+
+import generateStarfield from "./Starfield";
+import loadGeoMap from "./GeoMap";
 
 const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,7 @@ const Globe = () => {
     globeGroup.add(globeWireframe);
 
     // 스타필드 추가
-    const stars = getStarfield({ numStars: 1000 });
+    const stars = generateStarfield({ numStars: 1000 });
     scene.add(stars);
 
     // Raycaster & 마우스 이벤트 처리 (핀 위에 마우스가 있을 경우 globeGroup 회전 멈춤)
@@ -68,25 +69,12 @@ const Globe = () => {
 
     renderer.domElement.addEventListener("mousemove", onMouseMove, false);
 
-    // GeoJSON 데이터 로드 및 국가(라인)와 랜덤 핀 추가
-    fetch("/land.json")
-      .then((response) => response.text())
-      .then((text) => {
-        const data = JSON.parse(text);
-        const countries = drawThreeGeo({
-          json: data,
-          radius: 2,
-          materialOptions: {
-            randomPins: true,
-            randomPinsCount: 100,
-            pinMaterial: { color: 0x00ff00 },
-          },
-        });
-        if (countries) {
-          globeGroup.add(countries);
-        }
-      })
-      .catch((error) => console.error("GeoJSON 로드 실패:", error));
+    loadGeoMap({
+      geoJsonUrl: "/land.json",
+      radius: 2,
+      pinColor: 0x00ff00,
+      onLoaded: (geoObj) => globeGroup.add(geoObj),
+    });
 
     // 애니메이션 루프
     const animate = () => {
