@@ -59,27 +59,30 @@ export const handlers = [
     );
   }),
 
-  http.post(`${baseURL}/comments/:newsId`, async ({ params, request }) => {
-    const { newsId } = params;
-    const body = (await request.json()) as CreateCommentRequest;
+  http.post(
+    `${import.meta.env.VITE_API_URL}/comments/:newsId`,
+    async ({ params, request }) => {
+      const { newsId } = params;
+      const body = (await request.json()) as CreateCommentRequest;
 
-    if (newsId && Number(newsId) > 0) {
-      return HttpResponse.json({
-        code: 200,
-        message: "OK",
-        data: {
-          userId: body?.userId,
+      if (newsId && Number(newsId) > 0) {
+        return HttpResponse.json({
+          code: 200,
+          message: "OK",
+          data: {
+            userId: body?.userId,
+          },
+        });
+      }
+
+      return HttpResponse.json(
+        {
+          code: 3000,
+          message: "댓글은 작성하는데에 실패하였습니다.",
+          timestamp: 1735805809539,
         },
-      });
+        { status: 400 }
+      );
     }
-
-    return HttpResponse.json(
-      {
-        code: 3000,
-        message: "댓글은 작성하는데에 실패하였습니다.",
-        timestamp: 1735805809539,
-      },
-      { status: 400 }
-    );
-  }),
+  ),
 ];
