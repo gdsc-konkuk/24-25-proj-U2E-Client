@@ -85,4 +85,30 @@ export const handlers = [
       );
     }
   ),
+
+  http.delete(
+    `${import.meta.env.VITE_API_URL}/comments/:commentId`,
+    ({ params }) => {
+      const { commentId } = params;
+
+      if (commentId && parseInt(commentId.toString()) > 0) {
+        return HttpResponse.json({
+          code: 200,
+          message: "OK",
+          data: {
+            commentId: parseInt(commentId.toString()),
+          },
+        });
+      }
+
+      return HttpResponse.json(
+        {
+          code: 3000,
+          message: "댓글을 찾을 수 없습니다.",
+          timestamp: 1735805809539,
+        },
+        { status: 400 }
+      );
+    }
+  ),
 ];

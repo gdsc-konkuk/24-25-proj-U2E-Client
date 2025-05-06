@@ -32,3 +32,17 @@ export const createComment = async ({
   );
   return response.data;
 };
+
+/**
+ * 댓글 삭제 API
+ * @param commentId 삭제할 댓글 ID
+ * @returns 삭제된 댓글 ID를 포함한 응답
+ */
+export const deleteComment = async (commentId: number) => {
+  const response = await apiClient.delete<{
+    code: number;
+    message: string;
+    data: { commentId: number };
+  }>(`/comments/${commentId}`);
+  return response.data;
+};

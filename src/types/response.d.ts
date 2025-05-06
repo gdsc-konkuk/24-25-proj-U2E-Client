@@ -18,3 +18,11 @@ export interface CreateCommentResponse {
     userId: number;
   };
 }
+
+interface DeleteCommentResponse {
+  code: number;
+  message: string;
+  data: {
+    commentId: number;
+  };
+}

@@ -1,6 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createComment, fetchComments } from "../api/commentApi";
-import { CreateCommentResponse } from "../types/response";
+import { createComment, deleteComment, fetchComments } from "../api/commentApi";
+import {
+  CreateCommentResponse,
+  DeleteCommentResponse,
+} from "../types/response";
 import { CreateCommentRequest } from "../types/request";
 
 /**
@@ -30,6 +33,24 @@ export const useCreateCommentMutation = () => {
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["comments", variables.newsId],
+      });
+    },
+  });
+};
+
+/**
+ * 댓글 삭제용 React Query 커스텀 훅
+ * @returns 댓글 삭제 mutation 결과 객체
+ */
+export const useDeleteCommentMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<DeleteCommentResponse, Error, number>({
+    mutationFn: (commentId: number) => deleteComment(commentId),
+
+    onSuccess: (commentId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", commentId],
       });
     },
   });
