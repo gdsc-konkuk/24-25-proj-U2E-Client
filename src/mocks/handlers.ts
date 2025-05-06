@@ -1,4 +1,5 @@
 import { http, HttpResponse } from "msw";
+import { CreateCommentRequest } from "../types/request";
 
 export const handlers = [
   http.get(`${import.meta.env.VITE_API_URL}/comments/:newsId`, ({ params }) => {
@@ -46,6 +47,30 @@ export const handlers = [
         message:
           "비밀번호는 영어와 숫자를 포함해서 8자 이상 16자 이내로 입력해주세요.",
         timestamp: Date.now(),
+      },
+      { status: 400 }
+    );
+  }),
+
+  http.post(`${baseURL}/comments/:newsId`, async ({ params, request }) => {
+    const { newsId } = params;
+    const body = (await request.json()) as CreateCommentRequest;
+
+    if (newsId && Number(newsId) > 0) {
+      return HttpResponse.json({
+        code: 200,
+        message: "OK",
+        data: {
+          userId: body?.userId,
+        },
+      });
+    }
+
+    return HttpResponse.json(
+      {
+        code: 3000,
+        message: "댓글은 작성하는데에 실패하였습니다.",
+        timestamp: 1735805809539,
       },
       { status: 400 }
     );
