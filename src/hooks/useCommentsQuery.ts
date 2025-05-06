@@ -6,7 +6,7 @@ import { fetchComments } from "../api/commentApi";
  * @param newsId 뉴스 ID
  * @returns 댓글 조회 쿼리 결과 객체
  */
-const useCommentsQuery = (newsId: string | number) => {
+export const useCommentsQuery = (newsId: string | number) => {
   return useQuery({
     queryKey: ["comments", newsId],
     queryFn: () => fetchComments(newsId),
@@ -14,5 +14,3 @@ const useCommentsQuery = (newsId: string | number) => {
     gcTime: 10 * 60 * 1000,
   });
 };
-
-export default useCommentsQuery;

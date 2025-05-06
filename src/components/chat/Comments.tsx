@@ -1,4 +1,4 @@
-import useCommentsQuery from "../../hooks/useCommentsQuery";
+import { useCommentsQuery } from "../../hooks/useCommentsQuery";
 
 interface CommentsProps {
   newsId: string | number;
