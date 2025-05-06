@@ -9,7 +9,7 @@ interface CommentCardProps {
 
 const CommentCard = ({ userName, contents }: CommentCardProps) => {
   return (
-    <CommentContainer>
+    <Container>
       <HeaderSection>
         <UserName>{userName}</UserName>
         <Option style={{ fontSize: "12px", color: "#A0A0A0" }}>...</Option>
@@ -19,11 +19,11 @@ const CommentCard = ({ userName, contents }: CommentCardProps) => {
         <UserIcon width={"24px"} height={"24px"} />
         <CommentText>{contents}</CommentText>
       </CommentSection>
-    </CommentContainer>
+    </Container>
   );
 };
 
-const CommentContainer = styled.div`
+const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 8px 19px;
