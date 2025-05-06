@@ -4,7 +4,7 @@ import {
   CreateCommentResponse,
   DeleteCommentResponse,
 } from "../types/response";
-import { CreateCommentRequest } from "../types/request";
+import { CreateCommentRequest, DeleteCommentParams } from "../types/request";
 
 /**
  * 댓글 목록을 조회하기 위한 React Query 커스텀 훅
@@ -30,9 +30,9 @@ export const useCreateCommentMutation = () => {
   return useMutation<CreateCommentResponse, Error, CreateCommentRequest>({
     mutationFn: (newComment) => createComment(newComment),
 
-    onSuccess: (_data, variables) => {
+    onSuccess: (_data, { newsId }) => {
       queryClient.invalidateQueries({
-        queryKey: ["comments", variables.newsId],
+        queryKey: ["comments", newsId],
       });
     },
   });
@@ -45,12 +45,12 @@ export const useCreateCommentMutation = () => {
 export const useDeleteCommentMutation = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<DeleteCommentResponse, Error, number>({
-    mutationFn: (commentId: number) => deleteComment(commentId),
+  return useMutation<DeleteCommentResponse, Error, DeleteCommentParams>({
+    mutationFn: ({ commentId }) => deleteComment(commentId),
 
-    onSuccess: (commentId) => {
+    onSuccess: (_data, { newsId }) => {
       queryClient.invalidateQueries({
-        queryKey: ["comments", commentId],
+        queryKey: ["comments", newsId],
       });
     },
   });

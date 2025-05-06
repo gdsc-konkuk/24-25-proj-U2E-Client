@@ -13,7 +13,7 @@ function Comments() {
   return (
     <Container>
       {data?.data.commentList.map((comment) => (
-        <CommentCard key={comment.commentId} {...comment} />
+        <CommentCard key={comment.commentId} {...comment} newsId={newsId} />
       ))}
     </Container>
   );

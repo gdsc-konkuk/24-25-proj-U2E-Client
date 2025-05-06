@@ -7,10 +7,16 @@ import { useDeleteCommentMutation } from "../../hooks/useCommentsQuery";
 interface CommentCardProps {
   userName: string;
   commentId: number;
+  newsId: number;
   contents: string;
 }
 
-const CommentCard = ({ userName, commentId, contents }: CommentCardProps) => {
+const CommentCard = ({
+  userName,
+  commentId,
+  newsId,
+  contents,
+}: CommentCardProps) => {
   const { mutate: deleteComment, error: deleteError } =
     useDeleteCommentMutation();
   const [showPopup, setShowPopup] = useState(false);
@@ -40,7 +46,7 @@ const CommentCard = ({ userName, commentId, contents }: CommentCardProps) => {
   }, []);
 
   const handleDeleteComment = () => {
-    deleteComment(commentId);
+    deleteComment({ commentId, newsId });
     setShowPopup(false);
   };
 

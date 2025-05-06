@@ -4,3 +4,8 @@ export interface CreateCommentRequest {
   newsId: number;
   contents: string;
 }
+
+export interface DeleteCommentParams {
+  commentId: number;
+  newsId: number;
+}
