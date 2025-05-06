@@ -24,9 +24,7 @@ function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
           <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
         </ChatHeader>
 
-        <MessageArea>
-          <Comments />
-        </MessageArea>
+        <Comments />
 
         <UserInput />
       </ContentContainer>
@@ -122,15 +120,6 @@ const CloseButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`;
-
-const MessageArea = styled.div`
-  width: 100%;
-  padding: 15px;
-  flex: 1;
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  margin-bottom: 15px;
 `;
 
 const UserInput = styled.input`

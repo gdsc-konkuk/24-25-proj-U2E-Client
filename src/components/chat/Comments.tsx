@@ -1,13 +1,13 @@
+import { useParams } from "react-router-dom";
 import {
   useCommentsQuery,
   useCreateCommentMutation,
 } from "../../hooks/useCommentsQuery";
+import CommentCard from "./CommentCard";
+import styled from "styled-components";
 
-interface CommentsProps {
-  newsId: number;
-}
-
-function Comments({ newsId = 1 }: CommentsProps) {
+function Comments() {
+  const newsId = useParams().newsId || 1;
   const { data, isLoading, error } = useCommentsQuery(newsId);
   const { mutate: createComment, error: createError } =
     useCreateCommentMutation();
@@ -17,28 +17,33 @@ function Comments({ newsId = 1 }: CommentsProps) {
 
   const handleCreate = () => {
     createComment({
-      userId: -123,
-      newsId: -1,
+      userId: 123,
+      userName: "천재",
+      newsId: 1,
       contents: "새로운 댓글 내용입니다!",
     });
   };
 
   return (
-    <div>
-      <ul>
-        {data?.data.commentList.map((comment) => (
-          <li key={comment.commentId}>
-            <p>
-              사용자 {comment.userId}: {comment.contents}
-            </p>
-          </li>
-        ))}
-      </ul>
+    <Container>
+      {data?.data.commentList.map((comment) => (
+        <CommentCard key={comment.commentId} {...comment} />
+      ))}
 
       <button onClick={handleCreate}>{"댓글 작성"}</button>
       {createError && <p>댓글 작성 중 오류가 발생했습니다.</p>}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  overflow-y: scroll;
+  backdrop-filter: blur(5px);
+  background-color: ${({ theme }) => theme.colors.background};
+`;
 
 export default Comments;
