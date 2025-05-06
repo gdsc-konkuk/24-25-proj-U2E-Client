@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Warning from "./Warning";
+import E from "./E";
 
 const Earth = () => {
   return (
     <EarthContainer>
-      <Warning />
+      {/*<Warning />*/}
+      <E />
     </EarthContainer>
   );
 };
