@@ -11,10 +11,19 @@ interface Drop {
   velY: number; // y축 방향 속도
 }
 
-// 생성할 물방울의 수
-const NUM_DROPS = 400;
+interface DetailAnimationProps {
+  dropNum: number;
+  dropSpeed?: number;
+  boundary?: number;
+}
 
-const DetailAnimation = () => {
+const DetailAnimation = ({
+  dropNum,
+  dropSpeed = 6,
+  boundary = 100,
+}: DetailAnimationProps) => {
+  // 생성할 물방울의 수
+  const NUM_DROPS = dropNum;
   // DOM 요소 및 상태를 참조하기 위한 ref 선언
   const containerRef = useRef<HTMLDivElement>(null); // 컨테이너 요소 참조
   const canvasRef = useRef<HTMLCanvasElement>(null); // 캔버스 요소 참조
@@ -48,7 +57,7 @@ const DetailAnimation = () => {
       x: Math.random() * canvas.width, // 랜덤 x 위치
       y: Math.random() * canvas.height, // 랜덤 y 위치
       len: 10 + Math.random() * 10, // 10~20 사이의 랜덤 길이
-      speed: 2 + Math.random() * 6, // 2~4 사이의 랜덤 속도
+      speed: 2 + Math.random() * dropSpeed, // 2~4 사이의 랜덤 속도
       velX: 0, // 초기 x 방향 속도는 0
       velY: 0, // 초기 y 방향 속도는 0
     }));
@@ -119,9 +128,9 @@ const DetailAnimation = () => {
             drop.y - mouseRef.current.y
           ); // 마우스와 물방울 사이의 거리
 
-          if (dist < 100) {
+          if (dist < boundary) {
             // 100픽셀 이내일 때 영향을 줌
-            const influence = (100 - dist) / 100; // 거리에 따른 영향력 (0~1)
+            const influence = (boundary - dist) / boundary; // 거리에 따른 영향력 (0~1)
             drop.velX += dx * 0.2 * influence; // x축 속도에 영향
             drop.velY += dy * 0.2 * influence; // y축 속도에 영향
           }
@@ -177,7 +186,7 @@ const DetailAnimation = () => {
 // 애니메이션을 포함할 컨테이너 스타일 정의
 const Container = styled.div`
   width: 100%;
-  height: 400px;
+  height: 100%;
   position: relative;
   overflow: hidden;
 `;
