@@ -1,12 +1,7 @@
 import { http, HttpResponse } from "msw";
 
-const baseURL =
-  import.meta.env.VITE_APP_NODE === "development"
-    ? "https://test"
-    : "https://us2earth.click/";
-
 export const handlers = [
-  http.get(`${baseURL}/comments/:newsId`, ({ params }) => {
+  http.get(`${import.meta.env.VITE_API_URL}/comments/:newsId`, ({ params }) => {
     const { newsId } = params;
 
     if (newsId && parseInt(newsId.toString()) > 0) {
