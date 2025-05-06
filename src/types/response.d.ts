@@ -9,3 +9,11 @@ export interface CommentResponse {
     }[];
   };
 }
+
+export interface CreateCommentResponse {
+  code: number;
+  message: string;
+  data: {
+    userId: number;
+  };
+}
