@@ -2,6 +2,7 @@ import styled, { css, keyframes } from "styled-components";
 import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import ChatPanelFrameSvg from "../../assets/svgs/ChatPanelFrame.svg?react";
+import UserInput from "./UserInput";
 
 interface ChatPanelProps {
   isVisible: boolean;
@@ -12,20 +13,14 @@ function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
     <Container isVisible={isVisible}>
       <SVGFrameWrapper>
-        <ChatPanelFrameSvg
-          width="100%"
-          height="100%"
-          preserveAspectRatio="none"
-        />
+        <ChatPanelFrameSvg width="100%" preserveAspectRatio="none" />
       </SVGFrameWrapper>
       <ContentContainer>
         <ChatHeader>
           <ChatTitle>{`>> Comments`}</ChatTitle>
           <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
         </ChatHeader>
-
         <Comments />
-
         <UserInput />
       </ContentContainer>
     </Container>
@@ -91,6 +86,7 @@ const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 15px;
+  gap: 15px;
   ${colFlex({ justify: "space", align: "center" })}
   z-index: 1;
 `;
@@ -120,16 +116,6 @@ const CloseButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`;
-
-const UserInput = styled.input`
-  width: 100%;
-  height: 50px;
-  padding: 10px 10px;
-  border-radius: 20px;
-  outline: none;
-  border: none;
-  ${rowFlex({ justify: "center", align: "center" })};
 `;
 
 export default ChatPanel;
