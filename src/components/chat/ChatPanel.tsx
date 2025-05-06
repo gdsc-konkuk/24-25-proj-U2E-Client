@@ -3,6 +3,7 @@ import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import ChatPanelFrameSvg from "../../assets/svgs/ChatPanelFrame.svg?react";
 import UserInput from "./UserInput";
+import theme from "../../styles/theme";
 
 interface ChatPanelProps {
   isVisible: boolean;
@@ -11,21 +12,29 @@ interface ChatPanelProps {
 
 function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
-    <Container $isVisible={isVisible}>
-      <SVGFrameWrapper>
-        <ChatPanelFrameSvg width="100%" preserveAspectRatio="none" />
-      </SVGFrameWrapper>
-      <ContentContainer>
-        <ChatHeader>
-          <ChatTitle>{`>> Comments`}</ChatTitle>
-          <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
-        </ChatHeader>
-        <Comments />
-        <UserInput />
-      </ContentContainer>
-    </Container>
+    <>
+      {!isVisible && (
+        <ToggleButton onClick={() => setIsChatOpen(true)}>✨</ToggleButton>
+      )}
+
+      <Container $isVisible={isVisible}>
+        <SVGFrameWrapper>
+          <ChatPanelFrameSvg width="100%" preserveAspectRatio="none" />
+        </SVGFrameWrapper>
+        <ContentContainer>
+          <ChatHeader>
+            <ChatTitle>{`>> Comments`}</ChatTitle>
+            <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
+          </ChatHeader>
+          <Comments />
+          <UserInput />
+        </ContentContainer>
+      </Container>
+    </>
   );
 }
+
+export default ChatPanel;
 
 const accordionIn = keyframes`
   from {
@@ -70,6 +79,25 @@ const Container = styled.div<{ $isVisible: boolean }>`
       : css`
           animation: ${accordionOut} 0.3s ease-in forwards;
         `}
+`;
+
+const ToggleButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid ${theme.colors.secondary};
+  font-size: 24px;
+  ${rowFlex({ justify: "center", align: "center" })}
+  z-index: 1001;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const SVGFrameWrapper = styled.div`
@@ -117,5 +145,3 @@ const CloseButton = styled.button`
     opacity: 0.8;
   }
 `;
-
-export default ChatPanel;
