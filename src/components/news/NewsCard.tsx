@@ -10,9 +10,9 @@ interface Props {
 
 function NewsCard({ newsId, title, description, delay }: Props) {
   const navigate = useNavigate();
+
   const redirectToNewsDetail = () => {
-    // 뉴스 상세페이지로 이동
-    navigate(`/news-detail/:${newsId}`);
+    navigate(`/news-detail/${newsId}`);
   };
 
   return (
