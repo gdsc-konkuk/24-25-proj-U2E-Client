@@ -49,5 +49,8 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #2e3c55;
     border-radius: 4px;
   }
-
+  
+  input{
+  font-family: 'Tektur', sans-serif;
+}
 `;
