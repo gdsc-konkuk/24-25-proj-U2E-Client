@@ -32,7 +32,7 @@ const UserInput = () => {
     <Container>
       <StyledInput
         type="text"
-        placeholder="댓글을 입력하세요."
+        placeholder="Enter your comment"
         value={userInput}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUserInput(e.target.value)
