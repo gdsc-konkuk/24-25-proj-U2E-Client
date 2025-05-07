@@ -4,6 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 import generateStarfield from "./Starfield";
 import loadGeoMap from "./GeoMap";
+import { GeoPolygonFill } from "./GeoPolygonFill";
 
 const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,8 @@ const Globe = () => {
     const camera = new THREE.PerspectiveCamera(75, width / height, 1, 100);
     camera.position.z = 5;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    scene.background = null;
     renderer.setSize(width, height);
     container.appendChild(renderer.domElement);
 
@@ -37,7 +39,7 @@ const Globe = () => {
     // 지구본 wireframe 생성
     const globeGeometry = new THREE.SphereGeometry(2, 32, 32);
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xffffff,
+      color: "#8becff",
       transparent: true,
       opacity: 0.4,
     });
