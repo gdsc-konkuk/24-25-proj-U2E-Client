@@ -70,6 +70,7 @@ const Container = styled.div<{ $isVisible: boolean }>`
   height: 552px;
   z-index: 1000;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 
   ${({ $isVisible }) =>
     $isVisible
