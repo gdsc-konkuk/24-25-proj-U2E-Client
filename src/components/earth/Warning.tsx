@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 import WarningIcon from "../../assets/svgs/Warning.svg?react";
@@ -8,27 +8,13 @@ import DetailAnimation from "../animation/DetailAnimation";
 
 const Warning = () => {
   const [hovered, setHovered] = useState(false);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setHovered(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   return (
     <Container>
-      <IconWrapper ref={wrapperRef} onMouseEnter={() => setHovered(true)}>
+      <IconWrapper
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
         <GlowLayer $visible={hovered} />
         <WarningIconStyled />
         <MiniCard $visible={hovered}>
