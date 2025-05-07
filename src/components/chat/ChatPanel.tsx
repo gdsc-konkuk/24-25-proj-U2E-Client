@@ -2,6 +2,8 @@ import styled, { css, keyframes } from "styled-components";
 import Comments from "./Comments";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import ChatPanelFrameSvg from "../../assets/svgs/ChatPanelFrame.svg?react";
+import UserInput from "./UserInput";
+import theme from "../../styles/theme";
 
 interface ChatPanelProps {
   isVisible: boolean;
@@ -10,29 +12,29 @@ interface ChatPanelProps {
 
 function ChatPanel({ isVisible, setIsChatOpen }: ChatPanelProps) {
   return (
-    <Container isVisible={isVisible}>
-      <SVGFrameWrapper>
-        <ChatPanelFrameSvg
-          width="100%"
-          height="100%"
-          preserveAspectRatio="none"
-        />
-      </SVGFrameWrapper>
-      <ContentContainer>
-        <ChatHeader>
-          <ChatTitle>{`>> Comments`}</ChatTitle>
-          <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
-        </ChatHeader>
+    <>
+      {!isVisible && (
+        <ToggleButton onClick={() => setIsChatOpen(true)}>✨</ToggleButton>
+      )}
 
-        <MessageArea>
+      <Container $isVisible={isVisible}>
+        <SVGFrameWrapper>
+          <ChatPanelFrameSvg width="100%" preserveAspectRatio="none" />
+        </SVGFrameWrapper>
+        <ContentContainer>
+          <ChatHeader>
+            <ChatTitle>{`>> Comments`}</ChatTitle>
+            <CloseButton onClick={() => setIsChatOpen(false)}>✕</CloseButton>
+          </ChatHeader>
           <Comments />
-        </MessageArea>
-
-        <UserInput />
-      </ContentContainer>
-    </Container>
+          <UserInput />
+        </ContentContainer>
+      </Container>
+    </>
   );
 }
+
+export default ChatPanel;
 
 const accordionIn = keyframes`
   from {
@@ -60,7 +62,7 @@ const accordionOut = keyframes`
   }
 `;
 
-const Container = styled.div<{ isVisible: boolean }>`
+const Container = styled.div<{ $isVisible: boolean }>`
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -68,15 +70,35 @@ const Container = styled.div<{ isVisible: boolean }>`
   height: 552px;
   z-index: 1000;
   overflow: hidden;
+  backdrop-filter: blur(10px);
 
-  ${({ isVisible }) =>
-    isVisible
+  ${({ $isVisible }) =>
+    $isVisible
       ? css`
           animation: ${accordionIn} 0.3s ease-in forwards;
         `
       : css`
           animation: ${accordionOut} 0.3s ease-in forwards;
         `}
+`;
+
+const ToggleButton = styled.button`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid ${theme.colors.secondary};
+  font-size: 24px;
+  ${rowFlex({ justify: "center", align: "center" })}
+  z-index: 1001;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const SVGFrameWrapper = styled.div`
@@ -93,6 +115,7 @@ const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
   padding: 15px;
+  gap: 15px;
   ${colFlex({ justify: "space", align: "center" })}
   z-index: 1;
 `;
@@ -123,25 +146,3 @@ const CloseButton = styled.button`
     opacity: 0.8;
   }
 `;
-
-const MessageArea = styled.div`
-  width: 100%;
-  padding: 15px;
-  flex: 1;
-  background-color: rgba(196, 196, 196, 0.1);
-  backdrop-filter: blur(5px);
-  border-radius: 8px;
-  margin-bottom: 15px;
-`;
-
-const UserInput = styled.input`
-  width: 100%;
-  height: 50px;
-  padding: 10px 10px;
-  border-radius: 20px;
-  outline: none;
-  border: none;
-  ${rowFlex({ justify: "center", align: "center" })};
-`;
-
-export default ChatPanel;
