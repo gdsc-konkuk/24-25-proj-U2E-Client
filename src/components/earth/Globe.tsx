@@ -1,22 +1,78 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import styled from "styled-components";
 
 import generateStarfield from "./Starfield";
 import loadGeoMap from "./GeoMap";
-import { GeoPolygonFill } from "./GeoPolygonFill";
+import Warning from "./Warning";
+
+interface Pin {
+  pinId: number;
+  latitude: number;
+  longitude: number;
+  pinColor: string;
+  region: string;
+  climate: string;
+}
+
+//  더미 핀 데이터 리스트 (실제 API 대체 예정)
+const dummyPinList: Pin[] = [
+  {
+    pinId: 1,
+    latitude: 37.5665,
+    longitude: 126.978,
+    pinColor: "Yellow",
+    region: "South Korea",
+    climate: "RAIN",
+  },
+  {
+    pinId: 2,
+    latitude: 48.8566,
+    longitude: 2.3522,
+    pinColor: "Red",
+    region: "France",
+    climate: "HEAT",
+  },
+  {
+    pinId: 3,
+    latitude: 40.7128,
+    longitude: -74.006,
+    pinColor: "Blue",
+    region: "USA",
+    climate: "FINE_DUST",
+  },
+];
+
+// 위도/경도를 3D 좌표 (Vector3)로 변환하는 함수
+function latLonToVector3(
+  lat: number,
+  lon: number,
+  radius: number
+): THREE.Vector3 {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
 
 const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
+  const [screenPins, setScreenPins] = useState<
+    { pinId: number; x: number; y: number }[]
+  >([]);
 
+  // Three.js 기반 지구본 초기화 및 렌더링
   useEffect(() => {
-    // container 엘리먼트 확인
     const container = mountRef.current;
     if (!container) return;
 
-    // Scene, Camera, Renderer 초기화
     const width = window.innerWidth;
     const height = window.innerHeight;
+
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x000000, 0.3);
 
@@ -24,19 +80,16 @@ const Globe = () => {
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    scene.background = null;
     renderer.setSize(width, height);
     container.appendChild(renderer.domElement);
 
-    // OrbitControls 설정
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    // globeGroup 생성 (지구본 관련 오브젝트들을 담음)
+    // 지구본과 핀을 포함하는 그룹 생성
     const globeGroup = new THREE.Group();
     scene.add(globeGroup);
 
-    // 지구본 wireframe 생성
     const globeGeometry = new THREE.SphereGeometry(2, 32, 32);
     const lineMaterial = new THREE.LineBasicMaterial({
       color: "#8becff",
@@ -47,29 +100,8 @@ const Globe = () => {
     const globeWireframe = new THREE.LineSegments(edges, lineMaterial);
     globeGroup.add(globeWireframe);
 
-    // 스타필드 추가
     const stars = generateStarfield({ numStars: 1000 });
     scene.add(stars);
-
-    // Raycaster & 마우스 이벤트 처리 (핀 위에 마우스가 있을 경우 globeGroup 회전 멈춤)
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    let isHoveringPin = false;
-
-    const onMouseMove = (event: MouseEvent) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
-
-      const intersects = raycaster.intersectObjects(scene.children, true);
-
-      isHoveringPin = intersects.some(
-        (intersect) => intersect.object.userData.isPin
-      );
-    };
-
-    renderer.domElement.addEventListener("mousemove", onMouseMove, false);
 
     loadGeoMap({
       geoJsonUrl: "/land.json",
@@ -78,38 +110,69 @@ const Globe = () => {
       onLoaded: (geoObj) => globeGroup.add(geoObj),
     });
 
-    // 애니메이션 루프
+    const pinObjs: THREE.Object3D[] = [];
+
+    // 📍 모든 핀을 지구본에 추가
+    dummyPinList.forEach((pin) => {
+      const pinObj = new THREE.Object3D();
+      pinObj.userData = { ...pin, isPin: true };
+      pinObj.position.copy(latLonToVector3(pin.latitude, pin.longitude, 2.01));
+      globeGroup.add(pinObj);
+      pinObjs.push(pinObj);
+    });
+
+    // 애니메이션 루프 (지구 회전 + 핀 위치 추적)
     const animate = () => {
       requestAnimationFrame(animate);
-      if (!isHoveringPin) {
-        globeGroup.rotation.y += 0.001;
-      }
+      globeGroup.rotation.y += 0.001;
+
+      const nextScreenPins: { pinId: number; x: number; y: number }[] = [];
+      pinObjs.forEach((pinObj) => {
+        const world = new THREE.Vector3();
+        pinObj.getWorldPosition(world);
+        const projected = world.project(camera);
+        const x = ((projected.x + 1) / 2) * width;
+        const y = ((-projected.y + 1) / 2) * height;
+        nextScreenPins.push({ pinId: pinObj.userData.pinId, x, y });
+      });
+
+      // 📌 모든 핀의 화면 좌표 상태 업데이트
+      setScreenPins(nextScreenPins);
       controls.update();
       renderer.render(scene, camera);
     };
     animate();
 
-    // 창 크기 변경 처리
-    const handleResize = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 컴포넌트 언마운트 시 클린업
     return () => {
-      window.removeEventListener("resize", handleResize);
-      renderer.domElement.removeEventListener("mousemove", onMouseMove);
-      container.removeChild(renderer.domElement);
       renderer.dispose();
     };
   }, []);
 
-  return <div ref={mountRef} style={{ width: "100vw", height: "100vh" }} />;
+  // 렌더링: Three.js 캔버스 + DOM으로 핀 위치 표시
+  return (
+    <GlobeContainer ref={mountRef}>
+      {screenPins.map((pin) => (
+        <PinOverlayPositioner key={pin.pinId} x={pin.x} y={pin.y}>
+          <Warning />
+        </PinOverlayPositioner>
+      ))}
+    </GlobeContainer>
+  );
 };
+
+const GlobeContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: "relative";
+`;
+
+const PinOverlayPositioner = styled.div<{ x: number; y: number }>`
+  position: absolute;
+  left: ${({ x }) => x}px;
+  top: ${({ y }) => y}px;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: 1000;
+`;
 
 export default Globe;

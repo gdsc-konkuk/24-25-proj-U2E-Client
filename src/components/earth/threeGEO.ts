@@ -4,6 +4,7 @@ import {
   LineGeometry,
   LineMaterial,
 } from "three/examples/jsm/Addons.js";
+import { GeoPolygonFill } from "./GeoPolygonFill";
 
 /** GeoJSON 관련 타입 정의 **/
 interface GeoProperties {
@@ -98,6 +99,7 @@ export function drawThreeGeo({
           materialOptions?.pointMaterial
         );
         break;
+
       case "MultiPoint":
         for (
           let point_num = 0;
@@ -113,6 +115,7 @@ export function drawThreeGeo({
           );
         }
         break;
+
       case "LineString":
         coordinate_array = createCoordinateArray(geom.coordinates);
         for (
@@ -122,27 +125,35 @@ export function drawThreeGeo({
         ) {
           convertToSphereCoords(coordinate_array[point_num], radius);
         }
+
         drawLine(x_values, y_values, z_values, materialOptions);
+
         break;
+
       case "Polygon":
         for (
           let segment_num = 0;
           segment_num < geom.coordinates.length;
           segment_num++
         ) {
-          coordinate_array = createCoordinateArray(
-            geom.coordinates[segment_num]
-          );
-          for (
-            let point_num = 0;
-            point_num < coordinate_array.length;
-            point_num++
-          ) {
-            convertToSphereCoords(coordinate_array[point_num], radius);
+          const ring = geom.coordinates[segment_num];
+
+          for (let i = 0; i < ring.length; i++) {
+            convertToSphereCoords(ring[i], radius);
           }
           drawLine(x_values, y_values, z_values, materialOptions);
+
+          // 면도 동일하게 원시 ring 사용
+          const fill = GeoPolygonFill({
+            coordinates: ring,
+            radius,
+            color: 0x000000,
+          });
+          container.add(fill);
         }
         break;
+        {
+          /*
       case "MultiLineString":
         for (
           let segment_num = 0;
@@ -186,20 +197,11 @@ export function drawThreeGeo({
             drawLine(x_values, y_values, z_values, materialOptions);
           }
         }
-        break;
+        break;*/
+        }
       default:
         throw new Error("The geoJSON is not valid.");
     }
-  }
-
-  // materialOptions가 존재하고 randomPins 플래그가 true면 랜덤 핀 추가.
-  if (materialOptions && materialOptions.randomPins) {
-    const pins = createRandomPins({
-      radius,
-      numPins: materialOptions.randomPinsCount || 50,
-      materialOptions: materialOptions.pinMaterial || { color: 0xff0000 },
-    });
-    container.add(pins);
   }
 
   // --- 내부 함수들 ---
@@ -358,23 +360,25 @@ export function drawThreeGeo({
       verts.push(x_values[i], y_values[i], z_values[i]);
     }
     lineGeo.setPositions(verts);
-    let hue = 0.3 + Math.random() * 0.2;
-    if (Math.random() > 0.5) {
-      hue -= 0.3;
-    }
-    const color = new THREE.Color().setHSL(hue, 1.0, 0.5);
+
+    // 지정된 색상 목록에서 랜덤으로 선택
+    const predefinedColors = [0x00ff5d, 0x27ffb2, 0x2cffee, 0x00d1ff, 0x008fff];
+    const randomColorHex =
+      predefinedColors[Math.floor(Math.random() * predefinedColors.length)];
+    const color = new THREE.Color(randomColorHex);
+
     const lineMaterial = new LineMaterial({
       color,
-      linewidth: 2,
-      fog: true,
+      linewidth: 3,
+      transparent: true,
+      blending: THREE.AdditiveBlending, // 💡 빛나는 느낌의 핵심
+      opacity: 0.3, // 💡 강도 조절
+      fog: false,
     });
+
     lineMaterial.resolution.set(window.innerWidth, window.innerHeight);
     const line = new Line2(lineGeo, lineMaterial);
     line.computeLineDistances();
-    const rate = Math.random() * 0.0002;
-    line.userData.update = (t: number) => {
-      lineMaterial.dashOffset = t * rate;
-    };
     container.add(line);
 
     clearArrays();
@@ -393,37 +397,40 @@ export function drawThreeGeo({
  *  - 구의 반지름 위에 임의의 위도/경도 좌표를 생성한 후, 작은 구 모양의 Mesh를 핀으로 만들어 배치합니다.
  *  - materialOptions의 randomPins, randomPinsCount, pinMaterial 옵션에 따라 호출할 수 있습니다.
  */
-function createRandomPins({
-  radius = 5,
-  materialOptions = { color: 0xff0000 },
+{
+  /*function createRandomPins({
+radius = 5,
+materialOptions = { color: 0xff0000 },
 }: {
-  radius?: number;
-  numPins?: number;
-  materialOptions?: THREE.MeshBasicMaterialParameters;
+radius?: number;
+numPins?: number;
+materialOptions?: THREE.MeshBasicMaterialParameters;
 }): THREE.Object3D {
-  const pinsContainer = new THREE.Object3D();
+const pinsContainer = new THREE.Object3D();
 
-  // 여기서는 단일 핀만 생성 (필요시 numPins 만큼 반복 처리)
-  const lat = 37.56667;
-  const lon = 126.97806;
+// 여기서는 단일 핀만 생성 (필요시 numPins 만큼 반복 처리)
+const lat = 37.56667;
+const lon = 126.97806;
 
-  const x =
-    Math.cos((lat * Math.PI) / 180) * Math.cos((lon * Math.PI) / 180) * radius;
-  const y =
-    Math.cos((lat * Math.PI) / 180) * Math.sin((lon * Math.PI) / 180) * radius;
-  const z = Math.sin((lat * Math.PI) / 180) * radius;
+const x =
+  Math.cos((lat * Math.PI) / 180) * Math.cos((lon * Math.PI) / 180) * radius;
+const y =
+  Math.cos((lat * Math.PI) / 180) * Math.sin((lon * Math.PI) / 180) * radius;
+const z = Math.sin((lat * Math.PI) / 180) * radius;
 
-  const geometry = new THREE.SphereGeometry(0.05, 16, 16);
-  const material = new THREE.MeshBasicMaterial(materialOptions);
-  const pin = new THREE.Mesh(geometry, material);
+const geometry = new THREE.SphereGeometry(0.05, 16, 16);
+const material = new THREE.MeshBasicMaterial(materialOptions);
+const pin = new THREE.Mesh(geometry, material);
 
-  pin.userData.isPin = true;
-  pin.position.set(x, y, z);
+pin.userData.isPin = true;
+pin.position.set(x, y, z);
 
-  const normal = new THREE.Vector3(x, y, z).normalize();
-  pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
+const normal = new THREE.Vector3(x, y, z).normalize();
+pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
 
-  pinsContainer.add(pin);
+pinsContainer.add(pin);
 
-  return pinsContainer;
+return pinsContainer;
+}
+*/
 }
