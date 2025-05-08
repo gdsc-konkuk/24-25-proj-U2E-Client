@@ -5,7 +5,7 @@ interface StarfieldProps {
 }
 
 const generateStarfield = ({
-  numStars = 1000,
+  numStars = 2000,
 }: StarfieldProps): THREE.Points => {
   const verts: number[] = [];
   const colors: number[] = [];
