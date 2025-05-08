@@ -9,21 +9,16 @@ import {
   createCoordinateArray,
 } from "../../utils/geoUtils";
 import { GeoPolygonFill } from "./GeoPolygonFill";
-import { GeoDataType, MaterialType } from "../../types/geo";
+import { GeoDataType } from "../../types/geo";
 
 /** drawThreeGeo 함수 Props 타입 **/
 interface Props {
   json: GeoDataType;
   radius: number;
-  materialOptions?: MaterialType | null;
 }
 
 /** GeoJSON을 Three.js 오브젝트로 변환하는 함수 **/
-export function drawThreeGeo({
-  json,
-  radius,
-  materialOptions,
-}: Props): THREE.Object3D {
+export function drawThreeGeo({ json, radius }: Props): THREE.Object3D {
   const container = new THREE.Object3D();
   container.userData.update = (t: unknown) => {
     for (let i = 0; i < container.children.length; i++) {
@@ -50,12 +45,7 @@ export function drawThreeGeo({
       case "Point":
         convertToSphereCoords(geom.coordinates, radius);
         // Point 재질은 materialOptions?.pointMaterial 사용
-        drawParticle(
-          x_values[0],
-          y_values[0],
-          z_values[0],
-          materialOptions?.pointMaterial
-        );
+        drawParticle(x_values[0], y_values[0], z_values[0]);
         break;
 
       case "MultiPoint":
@@ -65,12 +55,7 @@ export function drawThreeGeo({
           point_num++
         ) {
           convertToSphereCoords(geom.coordinates[point_num], radius);
-          drawParticle(
-            x_values[0],
-            y_values[0],
-            z_values[0],
-            materialOptions?.pointMaterial
-          );
+          drawParticle(x_values[0], y_values[0], z_values[0]);
         }
         break;
 
@@ -182,27 +167,16 @@ export function drawThreeGeo({
     z_values.push(Math.sin((lat * Math.PI) / 180) * sphere_radius);
   }
 
-  function drawParticle(
-    x: number,
-    y: number,
-    z: number,
-    options: THREE.PointsMaterialParameters | undefined
-  ): void {
+  function drawParticle(x: number, y: number, z: number): void {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute(
       "position",
       new THREE.Float32BufferAttribute([x, y, z], 3)
     );
 
-    if (options) {
-      const particle_material = new THREE.PointsMaterial(options);
-      const particle = new THREE.Points(geo, particle_material);
-      container.add(particle);
-    }
     clearArrays();
   }
 
-  // drawLine의 매개변수 options를 선택적으로 받아 undefined도 허용합니다.
   function drawLine(
     x_values: number[],
     y_values: number[],
@@ -245,46 +219,4 @@ export function drawThreeGeo({
   }
 
   return container;
-}
-
-/** 랜덤 핀 생성 함수
- *  - 구의 반지름 위에 임의의 위도/경도 좌표를 생성한 후, 작은 구 모양의 Mesh를 핀으로 만들어 배치합니다.
- *  - materialOptions의 randomPins, randomPinsCount, pinMaterial 옵션에 따라 호출할 수 있습니다.
- */
-{
-  /*function createRandomPins({
-radius = 5,
-materialOptions = { color: 0xff0000 },
-}: {
-radius?: number;
-numPins?: number;
-materialOptions?: THREE.MeshBasicMaterialParameters;
-}): THREE.Object3D {
-const pinsContainer = new THREE.Object3D();
-
-// 여기서는 단일 핀만 생성 (필요시 numPins 만큼 반복 처리)
-const lat = 37.56667;
-const lon = 126.97806;
-
-const x =
-  Math.cos((lat * Math.PI) / 180) * Math.cos((lon * Math.PI) / 180) * radius;
-const y =
-  Math.cos((lat * Math.PI) / 180) * Math.sin((lon * Math.PI) / 180) * radius;
-const z = Math.sin((lat * Math.PI) / 180) * radius;
-
-const geometry = new THREE.SphereGeometry(0.05, 16, 16);
-const material = new THREE.MeshBasicMaterial(materialOptions);
-const pin = new THREE.Mesh(geometry, material);
-
-pin.userData.isPin = true;
-pin.position.set(x, y, z);
-
-const normal = new THREE.Vector3(x, y, z).normalize();
-pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
-
-pinsContainer.add(pin);
-
-return pinsContainer;
-}
-*/
 }

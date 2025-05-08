@@ -8,12 +8,7 @@ interface GeoMapProps {
   onLoaded?: (object: THREE.Object3D) => void;
 }
 
-const GeoMap = async ({
-  radius = 2,
-  geoJsonUrl,
-  pinColor = 0x00ff00,
-  onLoaded,
-}: GeoMapProps) => {
+const GeoMap = async ({ radius = 2, geoJsonUrl, onLoaded }: GeoMapProps) => {
   const container = new THREE.Object3D();
 
   try {
@@ -24,11 +19,6 @@ const GeoMap = async ({
     const geoObject = drawThreeGeo({
       json: data,
       radius,
-      materialOptions: {
-        randomPins: true,
-        randomPinsCount: 100,
-        pinMaterial: { color: pinColor },
-      },
     });
 
     container.add(geoObject);
