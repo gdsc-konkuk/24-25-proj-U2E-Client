@@ -4,54 +4,12 @@ import {
   LineGeometry,
   LineMaterial,
 } from "three/examples/jsm/Addons.js";
+import {
+  createGeometryArray,
+  createCoordinateArray,
+} from "../../utils/geoUtils";
 import { GeoPolygonFill } from "./GeoPolygonFill";
-
-/** GeoJSON 관련 타입 정의 **/
-interface GeoProperties {
-  featurecla: string;
-  scalerank: number;
-  min_zoom: number;
-}
-
-type GeoJSONGeometry =
-  | { type: "Point"; coordinates: number[] }
-  | { type: "MultiPoint"; coordinates: number[][] }
-  | { type: "LineString"; coordinates: number[][] }
-  | { type: "MultiLineString"; coordinates: number[][][] }
-  | { type: "Polygon"; coordinates: number[][][] }
-  | { type: "MultiPolygon"; coordinates: number[][][][] };
-
-interface Feature {
-  type: "Feature";
-  properties: GeoProperties;
-  geometry: GeoJSONGeometry;
-}
-
-interface FeatureCollection {
-  type: "FeatureCollection";
-  features: Feature[];
-}
-
-interface GeometryCollection {
-  type: "GeometryCollection";
-  geometries: GeoJSONGeometry[];
-}
-
-type GeoDataType =
-  | GeoJSONGeometry
-  | Feature
-  | FeatureCollection
-  | GeometryCollection;
-
-/** 재질 옵션 타입 정의 **/
-interface MaterialType {
-  randomPins: boolean;
-  randomPinsCount: number;
-  /** 랜덤 핀에 사용할 Mesh 전용 재질 옵션 */
-  pinMaterial: THREE.MeshBasicMaterialParameters;
-  /** Point/MultiPoint용 재질 옵션 (선택적) */
-  pointMaterial?: THREE.PointsMaterialParameters;
-}
+import { GeoDataType, MaterialType } from "../../types/geo";
 
 /** drawThreeGeo 함수 Props 타입 **/
 interface Props {
@@ -67,7 +25,7 @@ export function drawThreeGeo({
   materialOptions,
 }: Props): THREE.Object3D {
   const container = new THREE.Object3D();
-  container.userData.update = (t: any) => {
+  container.userData.update = (t: unknown) => {
     for (let i = 0; i < container.children.length; i++) {
       if (container.children[i].userData.update) {
         container.children[i].userData.update(t);
@@ -126,7 +84,7 @@ export function drawThreeGeo({
           convertToSphereCoords(coordinate_array[point_num], radius);
         }
 
-        drawLine(x_values, y_values, z_values, materialOptions);
+        drawLine(x_values, y_values, z_values);
 
         break;
 
@@ -141,7 +99,7 @@ export function drawThreeGeo({
           for (let i = 0; i < ring.length; i++) {
             convertToSphereCoords(ring[i], radius);
           }
-          drawLine(x_values, y_values, z_values, materialOptions);
+          drawLine(x_values, y_values, z_values);
 
           // 면도 동일하게 원시 ring 사용
           const fill = GeoPolygonFill({
@@ -204,109 +162,6 @@ export function drawThreeGeo({
     }
   }
 
-  // --- 내부 함수들 ---
-  function createGeometryArray(json: GeoDataType): GeoJSONGeometry[] {
-    let geometry_array: GeoJSONGeometry[] = [];
-
-    if ("geometry" in json && json.type === "Feature") {
-      geometry_array.push(json.geometry);
-    } else if ("features" in json && json.type === "FeatureCollection") {
-      for (
-        let feature_num = 0;
-        feature_num < json.features.length;
-        feature_num++
-      ) {
-        geometry_array.push(json.features[feature_num].geometry);
-      }
-    } else if ("geometries" in json && json.type === "GeometryCollection") {
-      for (let geom_num = 0; geom_num < json.geometries.length; geom_num++) {
-        geometry_array.push(json.geometries[geom_num]);
-      }
-    } else if ("type" in json) {
-      // raw GeoJSON geometry
-      geometry_array.push(json as GeoJSONGeometry);
-    } else {
-      throw new Error("The geoJSON is not valid.");
-    }
-    return geometry_array;
-  }
-
-  function createCoordinateArray(feature: number[][]): number[][] {
-    // 인접 좌표 간 거리가 크면 보간하여 부드러운 곡선 생성.
-    const temp_array: number[][] = [];
-    let interpolation_array: number[][] = [];
-
-    for (let point_num = 0; point_num < feature.length; point_num++) {
-      const point1 = feature[point_num];
-      const point2 = feature[point_num - 1];
-
-      if (point_num > 0) {
-        if (needsInterpolation(point2, point1)) {
-          interpolation_array = [point2, point1];
-          interpolation_array = interpolatePoints(interpolation_array);
-
-          for (
-            let inter_point_num = 0;
-            inter_point_num < interpolation_array.length;
-            inter_point_num++
-          ) {
-            temp_array.push(interpolation_array[inter_point_num]);
-          }
-        } else {
-          temp_array.push(point1);
-        }
-      } else {
-        temp_array.push(point1);
-      }
-    }
-    return temp_array;
-  }
-
-  function needsInterpolation(point2: number[], point1: number[]): boolean {
-    const lon1 = point1[0];
-    const lat1 = point1[1];
-    const lon2 = point2[0];
-    const lat2 = point2[1];
-    const lon_distance = Math.abs(lon1 - lon2);
-    const lat_distance = Math.abs(lat1 - lat2);
-
-    return lon_distance > 5 || lat_distance > 5;
-  }
-
-  function interpolatePoints(interpolation_array: number[][]): number[][] {
-    let temp_array: number[][] = [];
-    let point1: number[], point2: number[];
-
-    for (
-      let point_num = 0;
-      point_num < interpolation_array.length - 1;
-      point_num++
-    ) {
-      point1 = interpolation_array[point_num];
-      point2 = interpolation_array[point_num + 1];
-
-      if (needsInterpolation(point2, point1)) {
-        temp_array.push(point1);
-        temp_array.push(getMidpoint(point1, point2));
-      } else {
-        temp_array.push(point1);
-      }
-    }
-
-    temp_array.push(interpolation_array[interpolation_array.length - 1]);
-
-    if (temp_array.length > interpolation_array.length) {
-      temp_array = interpolatePoints(temp_array);
-    }
-    return temp_array;
-  }
-
-  function getMidpoint(point1: number[], point2: number[]): number[] {
-    const midpoint_lon = (point1[0] + point2[0]) / 2;
-    const midpoint_lat = (point1[1] + point2[1]) / 2;
-    return [midpoint_lon, midpoint_lat];
-  }
-
   function convertToSphereCoords(
     coordinates_array: number[],
     sphere_radius: number
@@ -351,8 +206,7 @@ export function drawThreeGeo({
   function drawLine(
     x_values: number[],
     y_values: number[],
-    z_values: number[],
-    options?: MaterialType | null
+    z_values: number[]
   ): void {
     const lineGeo = new LineGeometry();
     const verts: number[] = [];

@@ -1,4 +1,3 @@
-// GeoMap.tsx
 import * as THREE from "three";
 import { drawThreeGeo } from "./threeGEO";
 
