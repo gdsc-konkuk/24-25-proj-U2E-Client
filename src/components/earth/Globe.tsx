@@ -166,10 +166,15 @@ const GlobeContainer = styled.div`
   position: "relative";
 `;
 
-const PinOverlayPositioner = styled.div<{ x: number; y: number }>`
+const PinOverlayPositioner = styled.div.attrs<{ x: number; y: number }>(
+  (props) => ({
+    style: {
+      left: `${props.x}px`,
+      top: `${props.y}px`,
+    },
+  })
+)`
   position: absolute;
-  left: ${({ x }) => x}px;
-  top: ${({ y }) => y}px;
   transform: translate(-50%, -50%);
   pointer-events: auto;
   z-index: 1000;
