@@ -25,12 +25,14 @@ function NewsContents({ newsData }: NewsContentsProps) {
           <NavigationArrow
             onClick={() => navigate("/")}
           >{`<<`}</NavigationArrow>
-          {regionList.map((region, index) => (
-            <LocationText key={`region-${index}`}>{region}</LocationText>
-          ))}
-          {climateList.map((climate, index) => (
-            <ClimateTag key={`climate-${index}`}>{climate}</ClimateTag>
-          ))}
+          <TagContainer>
+            {regionList.map((region, index) => (
+              <LocationText key={`region-${index}`}>{region}</LocationText>
+            ))}
+            {climateList.map((climate, index) => (
+              <ClimateTag key={`climate-${index}`}>{climate}</ClimateTag>
+            ))}
+          </TagContainer>
         </LocationContainer>
       </HeaderContainer>
       <NewsTitle>{newsTitle}</NewsTitle>
@@ -72,7 +74,11 @@ const LocationText = styled.div`
   background-color: ${theme.colors.primary};
   padding: 5px 10px;
   border-radius: 15px;
-  margin-left: auto;
+`;
+
+const TagContainer = styled.div`
+  gap: 10px;
+  ${rowFlex({ justify: "center", align: "center" })}
 `;
 
 const ClimateTag = styled.div`
