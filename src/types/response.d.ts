@@ -26,3 +26,12 @@ interface DeleteCommentResponse {
     commentId: number;
   };
 }
+
+interface NewsResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {
+    latelyNewsList: News[];
+  };
+}
