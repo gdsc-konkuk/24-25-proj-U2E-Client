@@ -6,6 +6,7 @@ import styled from "styled-components";
 import generateStarfield from "./Starfield";
 import loadGeoMap from "./GeoMap";
 import Warning from "./Warning";
+import { latLonToVector3 } from "../../utils/geoUtils";
 
 interface Pin {
   pinId: number;
@@ -43,21 +44,6 @@ const dummyPinList: Pin[] = [
     climate: "FINE_DUST",
   },
 ];
-
-// 위도/경도를 3D 좌표 (Vector3)로 변환하는 함수
-function latLonToVector3(
-  lat: number,
-  lon: number,
-  radius: number
-): THREE.Vector3 {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
-  return new THREE.Vector3(
-    -radius * Math.sin(phi) * Math.cos(theta),
-    radius * Math.cos(phi),
-    radius * Math.sin(phi) * Math.sin(theta)
-  );
-}
 
 const Globe = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -106,7 +92,6 @@ const Globe = () => {
     loadGeoMap({
       geoJsonUrl: "/land.json",
       radius: 2,
-      pinColor: 0x00ff00,
       onLoaded: (geoObj) => globeGroup.add(geoObj),
     });
 
