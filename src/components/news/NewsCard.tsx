@@ -4,11 +4,12 @@ import styled, { keyframes } from "styled-components";
 interface Props {
   newsId: number;
   title: string;
-  description: string;
   delay: number;
+  regionList?: string[];
+  climateList?: string[];
 }
 
-function NewsCard({ newsId, title, description, delay }: Props) {
+function NewsCard({ newsId, title, delay, regionList, climateList }: Props) {
   const navigate = useNavigate();
 
   const redirectToNewsDetail = () => {
@@ -18,7 +19,22 @@ function NewsCard({ newsId, title, description, delay }: Props) {
   return (
     <Card $delay={delay} onClick={redirectToNewsDetail}>
       <Title>{title}</Title>
-      <Description>{description}</Description>
+      <TagContainer>
+        {regionList?.map((region, index) => (
+          <Tag key={index} $type="region">
+            {region}
+            {index < regionList.length - 1 ? ", " : ""}
+          </Tag>
+        ))}
+      </TagContainer>
+      <TagContainer>
+        {climateList?.map((climate, index) => (
+          <Tag key={index} $type="climate">
+            {climate}
+            {index < climateList.length - 1 ? ", " : ""}
+          </Tag>
+        ))}
+      </TagContainer>
     </Card>
   );
 }
@@ -60,10 +76,16 @@ const Title = styled.h3`
   font-size: 18px;
 `;
 
-const Description = styled.p`
-  margin: 8px 0 0;
-  font-size: 14px;
-  color: #a9b4c2;
+const TagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+`;
+
+const Tag = styled.span<{ $type: "region" | "climate" }>`
+  font-size: 12px;
+  color: ${({ $type }) => ($type === "region" ? "#8ecae6" : "#ffb703")};
 `;
 
 export default NewsCard;
