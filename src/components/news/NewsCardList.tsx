@@ -3,7 +3,7 @@ import { colFlex, rowFlex } from "../../styles/flexStyles";
 import NewsCard from "./NewsCard";
 
 interface Props {
-  newsData: News[];
+  newsData: RecentNews[];
 }
 
 function NewsCardList({ newsData }: Props) {

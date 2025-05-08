@@ -6,11 +6,12 @@ import NewsCardList from "../components/news/NewsCardList";
 
 const MainPage = () => {
   const { data: response, error } = useRecentNewsQuery();
-  console.log("response", response);
+
   if (error) {
     alert("뉴스를 불러오는 데 실패했습니다.");
     return null;
   }
+
   return (
     <Container>
       <Earth />
