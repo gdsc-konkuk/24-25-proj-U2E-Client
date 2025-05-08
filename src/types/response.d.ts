@@ -4,7 +4,7 @@ export interface CommentResponse {
   data: {
     commentList: {
       userId: number;
-      userName: string;
+      name: string;
       commentId: number;
       contents: string;
     }[];
