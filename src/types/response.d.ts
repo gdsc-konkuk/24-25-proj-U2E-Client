@@ -27,11 +27,18 @@ interface DeleteCommentResponse {
   };
 }
 
-interface NewsResponse {
+interface RecentNewsResponse {
   success: boolean;
   code: number;
   message: string;
   data: {
-    latelyNewsList: News[];
+    latelyNewsList: RecentNews[];
   };
+}
+
+interface NewsResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: News;
 }
