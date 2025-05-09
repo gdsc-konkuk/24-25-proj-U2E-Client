@@ -95,53 +95,6 @@ export function drawThreeGeo({ json, radius }: Props): THREE.Object3D {
           container.add(fill);
         }
         break;
-        {
-          /*
-      case "MultiLineString":
-        for (
-          let segment_num = 0;
-          segment_num < geom.coordinates.length;
-          segment_num++
-        ) {
-          coordinate_array = createCoordinateArray(
-            geom.coordinates[segment_num]
-          );
-          for (
-            let point_num = 0;
-            point_num < coordinate_array.length;
-            point_num++
-          ) {
-            convertToSphereCoords(coordinate_array[point_num], radius);
-          }
-          drawLine(x_values, y_values, z_values, materialOptions);
-        }
-        break;
-      case "MultiPolygon":
-        for (
-          let polygon_num = 0;
-          polygon_num < geom.coordinates.length;
-          polygon_num++
-        ) {
-          for (
-            let segment_num = 0;
-            segment_num < geom.coordinates[polygon_num].length;
-            segment_num++
-          ) {
-            coordinate_array = createCoordinateArray(
-              geom.coordinates[polygon_num][segment_num]
-            );
-            for (
-              let point_num = 0;
-              point_num < coordinate_array.length;
-              point_num++
-            ) {
-              convertToSphereCoords(coordinate_array[point_num], radius);
-            }
-            drawLine(x_values, y_values, z_values, materialOptions);
-          }
-        }
-        break;*/
-        }
       default:
         throw new Error("The geoJSON is not valid.");
     }
