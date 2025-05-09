@@ -4,7 +4,7 @@ export interface CommentResponse {
   data: {
     commentList: {
       userId: number;
-      userName: string;
+      name: string;
       commentId: number;
       contents: string;
     }[];
@@ -25,4 +25,20 @@ interface DeleteCommentResponse {
   data: {
     commentId: number;
   };
+}
+
+interface RecentNewsResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: {
+    latelyNewsList: RecentNews[];
+  };
+}
+
+interface NewsResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  data: News;
 }

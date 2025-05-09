@@ -1,22 +1,22 @@
 import styled from "styled-components";
 import GlobeOverlay from "../components/sidebar/GlobalOverlay";
-import SidebarCardList from "../components/sidebar/SidebarCardList";
-import { useState } from "react";
-import NewsCardList from "../components/news/NewsCardList";
 import Earth from "../components/earth/Earth";
+import { useRecentNewsQuery } from "../hooks/useNewsQuery";
+import NewsCardList from "../components/news/NewsCardList";
 
 const MainPage = () => {
-  const [isShowSidebar, setIsShowSidebar] = useState<boolean>(true);
+  const { data: response, error } = useRecentNewsQuery();
+
+  if (error) {
+    alert("뉴스를 불러오는 데 실패했습니다.");
+    return null;
+  }
 
   return (
     <Container>
-      <Earth /> {/* 3D 지구본 영역*/}
+      <Earth />
       <GlobeOverlay />
-      {isShowSidebar ? (
-        <SidebarCardList setIsShowSidebar={setIsShowSidebar} />
-      ) : (
-        <NewsCardList setIsShowSidebar={setIsShowSidebar} />
-      )}
+      <NewsCardList newsData={response?.data?.latelyNewsList || []} />
     </Container>
   );
 };

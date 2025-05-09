@@ -5,14 +5,14 @@ import { useState, useEffect, useRef } from "react";
 import { useDeleteCommentMutation } from "../../hooks/useCommentsQuery";
 
 interface CommentCardProps {
-  userName: string;
+  name: string;
   commentId: number;
   newsId: number;
   contents: string;
 }
 
 const CommentCard = ({
-  userName,
+  name,
   commentId,
   newsId,
   contents,
@@ -57,7 +57,7 @@ const CommentCard = ({
   return (
     <Container>
       <HeaderSection>
-        <UserName>{userName}</UserName>
+        <UserName>{name}</UserName>
         <OptionContainer>
           <Option
             ref={optionRef}
