@@ -41,6 +41,7 @@ const IconWrapper = styled.div`
   width: 50px;
   height: 50px;
   cursor: pointer;
+  z-index: 99;
   svg {
     width: 100%;
     height: 100%;

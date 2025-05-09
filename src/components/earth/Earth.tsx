@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import Warning from "./Warning";
+import Globe from "./Globe";
 
 const Earth = () => {
   return (
     <EarthContainer>
-      <Warning />
+      {/* TODO: 추후에 디자인 요소가 추가될 수 있음 */}
+      <Globe />
     </EarthContainer>
   );
 };

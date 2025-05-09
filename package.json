@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "earcut": "^3.0.1",
     "@tanstack/react-query": "^5.75.4",
     "axios": "^1.9.0",
     "react": "^19.0.0",
@@ -24,6 +25,7 @@
     "@commitlint/config-conventional": "^19.7.1",
     "@eslint/js": "^9.21.0",
     "@tanstack/eslint-plugin-query": "^5.74.7",
+    "@types/earcut": "^3.0.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@types/three": "^0.174.0",

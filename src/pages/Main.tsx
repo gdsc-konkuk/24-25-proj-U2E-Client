@@ -24,7 +24,7 @@ const MainPage = () => {
 const Container = styled.div`
   width: 100%;
   height: 100vh;
-  background: linear-gradient(180deg, #040d21 0%, #0b1b3f 100%);
+  background: linear-gradient(180deg, #00193f 0%, #01091a 100%);
   overflow: hidden;
   position: relative;
 `;
