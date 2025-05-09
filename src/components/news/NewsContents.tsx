@@ -19,42 +19,103 @@ function NewsContents({ newsData }: NewsContentsProps) {
     newsDate,
   } = newsData;
   return (
-    <Container>
-      <HeaderContainer>
-        <LocationContainer>
-          <NavigationArrow
-            onClick={() => navigate("/")}
-          >{`<<`}</NavigationArrow>
-          <TagContainer>
-            {regionList.map((region, index) => (
-              <LocationText key={`region-${index}`}>{region}</LocationText>
-            ))}
-            {climateList.map((climate, index) => (
-              <ClimateTag key={`climate-${index}`}>{climate}</ClimateTag>
-            ))}
-          </TagContainer>
-        </LocationContainer>
-      </HeaderContainer>
-      <NewsTitle>{newsTitle}</NewsTitle>
-      <NewsDate>{newsDate}</NewsDate>
-      {newsImageUrl && <NewsImage src={newsImageUrl} alt={newsTitle} />}
-      <MainContent>{newsBody}</MainContent>
+    <PageLayout>
+      <Container>
+        <HeaderContainer>
+          <LocationContainer>
+            <NavigationArrow
+              onClick={() => navigate("/")}
+            >{`<<`}</NavigationArrow>
+            <TagContainer>
+              {regionList.map((region, index) => (
+                <LocationText key={`region-${index}`}>{region}</LocationText>
+              ))}
+              {climateList.map((climate, index) => (
+                <ClimateTag key={`climate-${index}`}>{climate}</ClimateTag>
+              ))}
+            </TagContainer>
+          </LocationContainer>
+        </HeaderContainer>
+        <NewsTitle>{newsTitle}</NewsTitle>
+        <NewsDate>{newsDate}</NewsDate>
+        {newsImageUrl && <NewsImage src={newsImageUrl} alt={newsTitle} />}
+        <MainContent>{newsBody}</MainContent>
+      </Container>
       {newsUrl && (
-        <SourceLink>
-          <a href={newsUrl} target="_blank" rel="noopener noreferrer">
-            원본 기사 보기
-          </a>
-        </SourceLink>
+        <NewsLinkCardContainer>
+          <LinkCard>
+            <LinkCardTitle>Original Article</LinkCardTitle>
+            <LinkDescription>Check the source of this article</LinkDescription>
+            <LinkButton
+              href={newsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Original Article
+            </LinkButton>
+          </LinkCard>
+        </NewsLinkCardContainer>
       )}
-    </Container>
+    </PageLayout>
   );
 }
 
+const PageLayout = styled.div`
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+  ${rowFlex({ justify: "center", align: "start" })}
+`;
+
 const Container = styled.article`
+  flex: 7;
   padding: 30px 50px;
-  width: 70%;
   height: 100%;
   ${colFlex({ align: "center" })}
+`;
+
+const NewsLinkCardContainer = styled.div`
+  flex: 3;
+  padding: 30px 20px 30px 0;
+  ${colFlex({ align: "start" })}
+`;
+
+const LinkCard = styled.div`
+  border: 2px solid ${theme.colors.primary};
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  ${colFlex({ align: "start" })}
+  gap: 15px;
+  margin-top: 30px;
+`;
+
+const LinkCardTitle = styled.h3`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${theme.colors.textPrimary};
+`;
+
+const LinkDescription = styled.p`
+  font-size: 14px;
+  color: ${theme.colors.textSecondary};
+`;
+
+const LinkButton = styled.a`
+  display: inline-block;
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.textPrimary};
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: medium;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${theme.colors.secondary};
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -122,22 +183,6 @@ const MainContent = styled.div`
   line-height: 35px;
   padding: 20px 0;
   width: 100%;
-`;
-
-const SourceLink = styled.div`
-  margin-top: 30px;
-  width: 100%;
-  text-align: right;
-
-  a {
-    color: ${theme.colors.gray};
-    text-decoration: underline;
-    font-size: 16px;
-
-    &:hover {
-      color: ${theme.colors.gray[300]};
-    }
-  }
 `;
 
 export default NewsContents;
