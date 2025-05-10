@@ -1,4 +1,4 @@
-import { CommentResponse, CreateCommentResponse } from "../types/response";
+import { CommentListResponse, CreateCommentResponse } from "../types/response";
 import { CreateCommentRequest } from "../types/request";
 import apiClient from "./client";
 
@@ -8,7 +8,7 @@ import apiClient from "./client";
  * @returns 댓글 목록
  */
 export const fetchComments = async (newsId: number) => {
-  const response = await apiClient.get<CommentResponse>(
+  const response = await apiClient.get<CommentListResponse>(
     `https://us2earth.click/comments/${newsId}`
   );
   return response.data;
