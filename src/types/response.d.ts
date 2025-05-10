@@ -69,3 +69,8 @@ export interface GetPinResponse {
     pinList: PinData[];
   };
 }
+
+export interface LoginResponse {
+  userId: number;
+  token: string;
+}
