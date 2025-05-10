@@ -35,6 +35,10 @@ export const useCreateCommentMutation = () => {
         queryKey: ["comments", newsId],
       });
     },
+    onError: (error) => {
+      alert(`댓글 작성에 실패했습니다: ${error?.message}`);
+      return error;
+    },
   });
 };
 
