@@ -49,9 +49,8 @@ const CommentCard = ({
     deleteComment({ commentId, newsId });
     setShowPopup(false);
   };
-
   if (deleteError) {
-    alert("댓글 삭제에 실패했습니다.");
+    alert("Failed to delete comment.");
   }
 
   return (
