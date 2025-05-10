@@ -14,9 +14,8 @@ export const login = async (loginData: LoginRequest): Promise<LoginReturn> => {
     "https://us2earth.click/user/login",
     loginData
   );
-
   if (!response.data.success) {
-    throw new Error(response.data.message || "로그인에 실패했습니다.");
+    throw new Error(response.data.message || "Login failed.");
   }
 
   return {

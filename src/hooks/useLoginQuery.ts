@@ -24,7 +24,7 @@ export const useLoginMutation = (): UseLoginMutationReturn => {
         });
       },
       onError: (error) => {
-        console.error("로그인 실패:", error);
+        console.error("Login failed:", error);
       },
     });
 

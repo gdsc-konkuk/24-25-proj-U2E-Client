@@ -24,7 +24,7 @@ const GeoMap = async ({ radius = 2, geoJsonUrl, onLoaded }: GeoMapProps) => {
     container.add(geoObject);
     onLoaded?.(container);
   } catch (error) {
-    console.error("GeoJSON 로드 실패:", error);
+    console.error("Failed to load GeoJSON:", error);
   }
 
   return container;

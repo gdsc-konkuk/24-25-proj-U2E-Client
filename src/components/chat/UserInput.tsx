@@ -44,17 +44,16 @@ const UserInput = () => {
     setIsLoggedIn(true);
     setShowLoginModal(false);
   };
-
   const handleLogout = () => {
     logout();
     setIsLoggedIn(false);
     setUserName("");
-    alert("로그아웃 되었습니다.");
+    alert("You have been logged out.");
   };
 
   const inputPlaceholder = isLoggedIn
-    ? `${userName}님 댓글을 입력하세요`
-    : "로그인하여 댓글을 작성하세요";
+    ? `${userName}, enter your comment`
+    : "Please log in to comment";
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -71,7 +70,7 @@ const UserInput = () => {
       <Container>
         <LoginIconWrapper
           onClick={isLoggedIn ? handleLogout : () => setShowLoginModal(true)}
-          title={isLoggedIn ? "로그아웃" : "로그인"}
+          title={isLoggedIn ? "Log out" : "Log in"}
         >
           <UserIcon
             width={"20px"}

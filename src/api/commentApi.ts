@@ -1,4 +1,8 @@
-import { CommentListResponse, CreateCommentResponse } from "../types/response";
+import {
+  CommentListResponse,
+  CreateCommentResponse,
+  DeleteCommentResponse,
+} from "../types/response";
 import { CreateCommentRequest } from "../types/request";
 import apiClient from "./client";
 
@@ -25,9 +29,8 @@ export const createComment = async ({
   contents,
 }: CreateCommentRequest) => {
   const token = localStorage.getItem("token");
-
   if (!token) {
-    throw new Error("인증 토큰이 없습니다. 로그인이 필요합니다.");
+    throw new Error("Authentication token not found. Please log in.");
   }
 
   const response = await apiClient.post<CreateCommentResponse>(
@@ -51,10 +54,8 @@ export const createComment = async ({
  * @returns 삭제된 댓글 ID를 포함한 응답
  */
 export const deleteComment = async (commentId: number) => {
-  const response = await apiClient.delete<{
-    code: number;
-    message: string;
-    data: { commentId: number };
-  }>(`/comments/${commentId}`);
+  const response = await apiClient.delete<DeleteCommentResponse>(
+    `/comments/${commentId}`
+  );
   return response.data;
 };

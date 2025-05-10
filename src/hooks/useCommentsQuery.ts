@@ -36,7 +36,7 @@ export const useCreateCommentMutation = () => {
       });
     },
     onError: (error) => {
-      alert(`댓글 작성에 실패했습니다: ${error?.message}`);
+      alert(`Failed to create comment: ${error?.message}`);
       return error;
     },
   });

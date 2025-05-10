@@ -20,25 +20,23 @@ const Login = ({ onSuccess, onClose }: LoginProps) => {
     isLoading: loginLoading,
     isError: loginIsError,
   } = useLoginMutation();
-
   const handleLogin = async () => {
     try {
       const response = await login(loginInput);
       setLoginInput({ name: "", password: "" });
       onSuccess(response.name);
     } catch (err) {
-      console.error("로그인 실패:", err);
-      alert("로그인에 실패했습니다. 다시 시도해주세요.");
+      console.error("Login failed:", err);
+      alert("Login failed. Please try again.");
     }
   };
-
   return (
     <Container>
       <LoginModalContent>
-        <h3>로그인</h3>
+        <h3>Login</h3>
         <LoginInput
           type="text"
-          placeholder="아이디"
+          placeholder="Username"
           value={loginInput.name}
           onChange={(e) =>
             setLoginInput({ ...loginInput, name: e.target.value })
@@ -46,7 +44,7 @@ const Login = ({ onSuccess, onClose }: LoginProps) => {
         />
         <LoginInput
           type="password"
-          placeholder="비밀번호"
+          placeholder="Password"
           value={loginInput.password}
           onChange={(e) =>
             setLoginInput({ ...loginInput, password: e.target.value })
@@ -54,11 +52,13 @@ const Login = ({ onSuccess, onClose }: LoginProps) => {
         />
         <LoginButtonGroup>
           <LoginButton onClick={handleLogin} disabled={loginLoading}>
-            {loginLoading ? "로그인 중..." : "로그인"}
+            {loginLoading ? "Logging in..." : "Login"}
           </LoginButton>
-          <LoginButton onClick={onClose}>취소</LoginButton>
+          <LoginButton onClick={onClose}>Cancel</LoginButton>
         </LoginButtonGroup>
-        {loginIsError && <ErrorMessage>로그인에 실패했습니다.</ErrorMessage>}
+        {loginIsError && (
+          <ErrorMessage>Login failed. Please try again.</ErrorMessage>
+        )}
       </LoginModalContent>
     </Container>
   );
