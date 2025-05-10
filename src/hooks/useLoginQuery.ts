@@ -15,7 +15,6 @@ export const useLoginMutation = (): UseLoginMutationReturn => {
       onSuccess: (data) => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userName", data.name);
-        localStorage.setItem("userId", String(data.userId));
 
         queryClient.setQueryData(["user"], {
           isAuthenticated: true,
@@ -31,7 +30,6 @@ export const useLoginMutation = (): UseLoginMutationReturn => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
-    localStorage.removeItem("userId");
 
     queryClient.setQueryData(["user"], {
       isAuthenticated: false,
