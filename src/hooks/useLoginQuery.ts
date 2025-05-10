@@ -1,16 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { login, LoginReturn } from "../api/loginApi";
-import { LoginRequest } from "../types/request";
-
-interface UseLoginMutationReturn {
-  login: (data: LoginRequest) => Promise<LoginReturn>;
-  isLoading: boolean;
-  isError: boolean;
-  error: Error | null;
-  isSuccess: boolean;
-  data: LoginReturn | undefined;
-  logout: () => void;
-}
+import { login } from "../api/loginApi";
+import { UseLoginMutationReturn } from "../types/login";
 
 /**
  * 로그인 기능을 위한 React Query 커스텀 훅

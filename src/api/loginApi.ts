@@ -1,19 +1,7 @@
+import { LoginReturn } from "../types/login";
 import { LoginRequest } from "../types/request";
 import { LoginResponse } from "../types/response";
 import apiClient from "./client";
-
-export interface ApiResponse<T> {
-  success: boolean;
-  code: number;
-  message: string;
-  data: T;
-}
-
-export interface LoginReturn {
-  userId: number;
-  token: string;
-  name: string;
-}
 
 /**
  * @description 로그인 API
@@ -22,7 +10,7 @@ export interface LoginReturn {
  * @throws 로그인 실패 시 에러 메시지
  */
 export const login = async (loginData: LoginRequest): Promise<LoginReturn> => {
-  const response = await apiClient.post<ApiResponse<LoginResponse>>(
+  const response = await apiClient.post<LoginResponse>(
     "https://us2earth.click/user/login",
     loginData
   );
