@@ -44,7 +44,14 @@ const UserInput = () => {
     setIsLoggedIn(true);
     setShowLoginModal(false);
   };
+
+  const onClickInput = () => {
+    if (isLoggedIn) return;
+    setShowLoginModal(true);
+  };
+
   const handleLogout = () => {
+    if (!isLoggedIn) return;
     logout();
     setIsLoggedIn(false);
     setUserName("");
@@ -69,8 +76,8 @@ const UserInput = () => {
     <>
       <Container>
         <LoginIconWrapper
-          onClick={isLoggedIn ? handleLogout : () => setShowLoginModal(true)}
           title={isLoggedIn ? "Log out" : "Log in"}
+          onClick={handleLogout}
         >
           <UserIcon
             width={"20px"}
@@ -86,8 +93,8 @@ const UserInput = () => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUserInput(e.target.value)
           }
+          onClick={onClickInput}
           onKeyDown={handleKeyDown}
-          disabled={!isLoggedIn}
         />
         <SendIconWrapper
           onClick={isLoggedIn ? sendComment : () => setShowLoginModal(true)}
