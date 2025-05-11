@@ -4,17 +4,7 @@ export interface Pin {
   longitude: number;
   pinColor: string;
   region: string[];
-  climate: string[];
-  // | "TEMPERATURE_RISE"
-  // | "HEAVY_RAIN_OR_FLOOD"
-  // | "FINE_DUST"
-  // | "DROUGHT_OR_DESERTIFICATION"
-  // | "SEA_LEVEL_RISE"
-  // | "TYPHOON_OR_TORNADO"
-  // | "WILDFIRE"
-  // | "EARTHQUAKE"
-  // | "DEFORESTATION"
-  // | "BIODIVERSITY_LOSS";
+  climate: Climate[];
 }
 
 export interface ScreenPin {
@@ -22,3 +12,15 @@ export interface ScreenPin {
   x: number;
   y: number;
 }
+
+export type Climate =
+  | "TEMPERATURE_RISE"
+  | "HEAVY_RAIN_OR_FLOOD"
+  | "FINE_DUST"
+  | "DROUGHT_OR_DESERTIFICATION"
+  | "SEA_LEVEL_RISE"
+  | "TYPHOON_OR_TORNADO"
+  | "WILDFIRE"
+  | "EARTHQUAKE"
+  | "DEFORESTATION"
+  | "BIODIVERSITY_LOSS";

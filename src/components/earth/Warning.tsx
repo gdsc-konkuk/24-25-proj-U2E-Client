@@ -5,10 +5,21 @@ import WarningIcon from "../../assets/svgs/Warning.svg?react";
 import { rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
 import DetailAnimation from "../animation/DetailAnimation";
+import { Pin } from "../../types/pin";
+import { climateIcons } from "../../constants/climateIcons";
 
-const Warning = () => {
+interface WarningProps {
+  pin: Pin;
+}
+
+const Warning = ({ pin }: WarningProps) => {
   const [hovered, setHovered] = useState(false);
-
+  const ClimateIcon = climateIcons.find(
+    (item) => item.id === pin.climate[0]
+  )?.icon;
+  const ClimateTitle = climateIcons.find(
+    (item) => item.id === pin.climate[0]
+  )?.label;
   return (
     <Container>
       <IconWrapper
@@ -19,7 +30,12 @@ const Warning = () => {
         <WarningIconStyled />
         <MiniCard $visible={hovered}>
           <Title>
-            South Korea <Emoji>🌧️</Emoji>
+            {ClimateTitle}
+            {ClimateIcon && (
+              <ClimateIconWrapper>
+                <ClimateIcon />
+              </ClimateIconWrapper>
+            )}
           </Title>
           <AnimationContainer>
             <DetailAnimation dropNum={50} dropSpeed={2} boundary={20} />
@@ -136,8 +152,17 @@ const Title = styled.div`
   gap: 8px;
 `;
 
-const Emoji = styled.span`
-  font-size: 18px;
+const ClimateIconWrapper = styled.div`
+  width: 26px;
+  height: 26px;
+  ${rowFlex({ align: "center", justify: "center" })};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 export default Warning;
