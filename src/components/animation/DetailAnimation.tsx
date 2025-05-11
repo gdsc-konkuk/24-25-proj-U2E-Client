@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import styled from "styled-components";
 
 // 떨어지는 물방울의 속성을 정의하는 인터페이스
