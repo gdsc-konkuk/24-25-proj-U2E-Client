@@ -1,22 +1,37 @@
 import styled from "styled-components";
 import { rowFlex } from "../../styles/flexStyles";
 import SendIcon from "../../assets/svgs/SendIcon.svg?react";
+import UserIcon from "../../assets/svgs/UserIcon.svg?react";
 import { useState } from "react";
 import { useCreateCommentMutation } from "../../hooks/useCommentsQuery";
+import { useLoginMutation } from "../../hooks/useLoginQuery";
 import theme from "../../styles/theme";
 import { useParams } from "react-router-dom";
+import Login from "./Login";
 
 const UserInput = () => {
   const newsId = Number(useParams().newsId) || 1;
   const [userInput, setUserInput] = useState<string>("");
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
-  const { mutate: createComment, error: createError } =
-    useCreateCommentMutation();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    !!localStorage.getItem("token")
+  );
+  const [userName, setUserName] = useState<string>(
+    localStorage.getItem("userName") || ""
+  );
+
+  const { mutate: createComment } = useCreateCommentMutation();
+  const { logout } = useLoginMutation();
 
   const sendComment = () => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+
     createComment({
-      userId: 123,
-      userName: "천재",
+      userName,
       newsId,
       contents: userInput,
     });
@@ -24,29 +39,77 @@ const UserInput = () => {
     setUserInput("");
   };
 
-  if (createError) {
-    alert("댓글 작성에 실패했습니다.");
-  }
+  const handleLoginSuccess = (name: string) => {
+    setUserName(name);
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
+
+  const onClickInput = () => {
+    if (isLoggedIn) return;
+    setShowLoginModal(true);
+  };
+
+  const handleLogout = () => {
+    if (!isLoggedIn) return;
+    logout();
+    setIsLoggedIn(false);
+    setUserName("");
+    alert("You have been logged out.");
+  };
+
+  const inputPlaceholder = isLoggedIn
+    ? `${userName}, enter your comment`
+    : "Please log in to comment";
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (!isLoggedIn) {
+        setShowLoginModal(true);
+        return;
+      }
+      sendComment();
+    }
+  };
 
   return (
-    <Container>
-      <StyledInput
-        type="text"
-        placeholder="Enter your comment"
-        value={userInput}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setUserInput(e.target.value)
-        }
-        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === "Enter") {
-            sendComment();
+    <>
+      <Container>
+        <LoginIconWrapper
+          title={isLoggedIn ? "Log out" : "Log in"}
+          onClick={handleLogout}
+        >
+          <UserIcon
+            width={"20px"}
+            height={"20px"}
+            style={{ opacity: isLoggedIn ? 1 : 0.7 }}
+          />
+          {isLoggedIn && <LoginStatusDot />}
+        </LoginIconWrapper>
+        <StyledInput
+          type="text"
+          placeholder={inputPlaceholder}
+          value={userInput}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUserInput(e.target.value)
           }
-        }}
-      />
-      <SendIconWrapper onClick={sendComment}>
-        <SendIcon width={"24px"} height={"24px"} />
-      </SendIconWrapper>
-    </Container>
+          onClick={onClickInput}
+          onKeyDown={handleKeyDown}
+        />
+        <SendIconWrapper
+          onClick={isLoggedIn ? sendComment : () => setShowLoginModal(true)}
+        >
+          <SendIcon width={"24px"} height={"24px"} />
+        </SendIconWrapper>
+      </Container>
+
+      {showLoginModal && (
+        <Login
+          onSuccess={handleLoginSuccess}
+          onClose={() => setShowLoginModal(false)}
+        />
+      )}
+    </>
   );
 };
 
@@ -61,7 +124,7 @@ const Container = styled.div`
 `;
 
 const StyledInput = styled.input`
-  width: calc(100% - 30px);
+  width: calc(100% - 60px);
   padding: 0 10px;
   outline: none;
   border: none;
@@ -69,6 +132,29 @@ const StyledInput = styled.input`
 
 const SendIconWrapper = styled.div`
   ${rowFlex({ justify: "center", align: "center" })};
+  cursor: pointer;
+`;
+
+const LoginIconWrapper = styled.div`
+  ${rowFlex({ justify: "center", align: "center" })};
+  position: relative;
+  margin-right: 5px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const LoginStatusDot = styled.div`
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  border: 1px solid white;
 `;
 
 export default UserInput;

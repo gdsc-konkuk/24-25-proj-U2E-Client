@@ -35,6 +35,10 @@ export const useCreateCommentMutation = () => {
         queryKey: ["comments", newsId],
       });
     },
+    onError: (error) => {
+      alert(`Failed to create comment: ${error?.message}`);
+      return error;
+    },
   });
 };
 

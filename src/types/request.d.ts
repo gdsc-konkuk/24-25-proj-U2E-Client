@@ -1,5 +1,4 @@
 export interface CreateCommentRequest {
-  userId: number;
   userName: string;
   newsId: number;
   contents: string;
@@ -8,4 +7,9 @@ export interface CreateCommentRequest {
 export interface DeleteCommentParams {
   commentId: number;
   newsId: number;
+}
+
+export interface LoginRequest {
+  name: string;
+  password: string;
 }
