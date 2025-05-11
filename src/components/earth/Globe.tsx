@@ -45,7 +45,7 @@ const dummyPinList: Pin[] = [
   },
 ];
 
-const Globe = () => {
+const Globe = ({ pinList }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [screenPins, setScreenPins] = useState<
     { pinId: number; x: number; y: number }[]
@@ -97,6 +97,8 @@ const Globe = () => {
 
     const pinObjs: THREE.Object3D[] = [];
 
+    if (!pinList || pinList.length === 0) return;
+
     // 📍 모든 핀을 지구본에 추가
     dummyPinList.forEach((pin) => {
       const pinObj = new THREE.Object3D();
@@ -128,6 +130,7 @@ const Globe = () => {
     };
     animate();
 
+    //지구본을 왼쪽에 배치
     globeGroup.position.x = -1.5;
 
     return () => {
