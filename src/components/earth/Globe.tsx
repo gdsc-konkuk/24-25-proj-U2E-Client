@@ -128,6 +128,8 @@ const Globe = () => {
     };
     animate();
 
+    globeGroup.position.x = -1.5;
+
     return () => {
       renderer.dispose();
     };
