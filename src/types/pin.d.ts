@@ -3,8 +3,8 @@ export interface Pin {
   latitude: number;
   longitude: number;
   pinColor: string;
-  region: string;
-  climate: string;
+  region: string[];
+  climate: string[];
   // | "TEMPERATURE_RISE"
   // | "HEAVY_RAIN_OR_FLOOD"
   // | "FINE_DUST"
@@ -15,4 +15,10 @@ export interface Pin {
   // | "EARTHQUAKE"
   // | "DEFORESTATION"
   // | "BIODIVERSITY_LOSS";
+}
+
+export interface ScreenPin {
+  pinId: number;
+  x: number;
+  y: number;
 }
