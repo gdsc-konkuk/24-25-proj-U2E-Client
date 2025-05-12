@@ -12,14 +12,7 @@ export interface CommentItem {
   contents: string;
 }
 
-export interface PinResponse {
-  code: number;
-  message: string;
-  data: {
-    pinList: Pin[];
-  };
-}
-
+export type PinResponse = APIResponse<{ pinList: Pin[] }>;
 export type CommentListResponse = APIResponse<{ commentList: CommentItem[] }>;
 
 export type CreateCommentResponse = APIResponse<{ userId: number }>;
