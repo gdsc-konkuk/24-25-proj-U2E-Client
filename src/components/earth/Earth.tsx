@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Globe from "./Globe";
 import { usePinQuery } from "../../hooks/usePinsQuery";
 import { useSearchParams } from "react-router-dom";
+import { rowFlex } from "../../styles/flexStyles";
 
 const Earth = () => {
   //url에서 파라미터 가져오기
@@ -32,8 +33,7 @@ const LoadingWrapper = styled.div`
   color: white;
   font-size: 20px;
   font-weight: bold;
-  ${""}
-${rowFlex({justify: 'center', align: 'center'});
+  ${rowFlex({ justify: "center", align: "center" })};
 `;
 
 export default Earth;
