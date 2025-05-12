@@ -44,3 +44,8 @@ export interface PinData {
 export type GetPinResponse = APIResponse<{ pinList: PinData[] }>;
 
 export type LoginResponse = APIResponse<{ userId: number; token: string }>;
+
+interface GeminiResponse {
+  solution: string;
+  relatedNews: string[];
+}

@@ -2,12 +2,15 @@ import styled from "styled-components";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getGeminiSolution } from "../../api/geminiApi";
+import NewsSideBar from "./NewsSideBar";
 
 interface NewsContentsProps {
   newsData: News;
 }
 
-function NewsContents({ newsData }: NewsContentsProps) {
+const NewsContents = ({ newsData }: NewsContentsProps) => {
   const navigate = useNavigate();
   const {
     climateList,
@@ -18,6 +21,24 @@ function NewsContents({ newsData }: NewsContentsProps) {
     newsBody,
     newsDate,
   } = newsData;
+  const [solution, setSolution] = useState<string>("");
+  const [relatedNews, setRelatedNews] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getGeminiSolution(newsBody)
+      .then((data) => {
+        setSolution(data.solution);
+        setRelatedNews(data.relatedNews);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Gemini solution:", error);
+        setIsLoading(false);
+      });
+  }, [newsBody]);
+
   return (
     <PageLayout>
       <Container>
@@ -38,27 +59,18 @@ function NewsContents({ newsData }: NewsContentsProps) {
         </HeaderContainer>
         <NewsTitle>{newsTitle}</NewsTitle>
         <NewsDate>{newsDate}</NewsDate>
-        {newsImageUrl && <NewsImage src={newsImageUrl} alt={newsTitle} />}
+        {newsImageUrl && <NewsImage src={newsImageUrl} alt={newsTitle} />}{" "}
         <MainContent>{newsBody}</MainContent>
       </Container>
-      {newsUrl && (
-        <NewsLinkCardContainer>
-          <LinkCard>
-            <LinkCardTitle>Original Article</LinkCardTitle>
-            <LinkDescription>Check the source of this article</LinkDescription>
-            <LinkButton
-              href={newsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Original Article
-            </LinkButton>
-          </LinkCard>
-        </NewsLinkCardContainer>
-      )}
+      <NewsSideBar
+        newsUrl={newsUrl}
+        isLoading={isLoading}
+        solution={solution}
+        relatedNews={relatedNews}
+      />
     </PageLayout>
   );
-}
+};
 
 const PageLayout = styled.div`
   width: 100%;
@@ -72,50 +84,6 @@ const Container = styled.article`
   padding: 30px 50px;
   height: 100%;
   ${colFlex({ align: "center" })}
-`;
-
-const NewsLinkCardContainer = styled.div`
-  flex: 3;
-  padding: 30px 20px 30px 0;
-  ${colFlex({ align: "start" })}
-`;
-
-const LinkCard = styled.div`
-  border: 2px solid ${theme.colors.primary};
-  border-radius: 10px;
-  padding: 20px;
-  width: 100%;
-  ${colFlex({ align: "start" })}
-  gap: 15px;
-  margin-top: 30px;
-`;
-
-const LinkCardTitle = styled.h3`
-  font-size: 20px;
-  font-weight: bold;
-  color: ${theme.colors.textPrimary};
-`;
-
-const LinkDescription = styled.p`
-  font-size: 14px;
-  color: ${theme.colors.textSecondary};
-`;
-
-const LinkButton = styled.a`
-  display: inline-block;
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.textPrimary};
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: medium;
-  font-size: 14px;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: ${theme.colors.secondary};
-  }
 `;
 
 const HeaderContainer = styled.div`
