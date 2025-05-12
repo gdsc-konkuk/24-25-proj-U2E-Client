@@ -1,4 +1,3 @@
-// src/api/pinApi.ts
 import { PinResponse } from "../types/response";
 import apiClient from "./client";
 

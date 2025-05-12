@@ -1,4 +1,3 @@
-// src/hooks/usePinQuery.ts
 import { useQuery } from "@tanstack/react-query";
 import { fetchPinList } from "../api/pinApi";
 import { Pin } from "../types/pin";
