@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import Globe from "./Globe";
 import { usePinQuery } from "../../hooks/usePinsQuery";
+import { useSearchParams } from "react-router-dom";
 
 const Earth = () => {
-  const { data: pinList } = usePinQuery();
+  //url에서 파라미터 가져오기
+  const [searchParams] = useSearchParams();
+  const region = searchParams.get("query");
+  const climate = searchParams.get("filter");
 
+  const { data: pinList, isLoading } = usePinQuery(region, climate);
+
+  if (isLoading) {
+    return <LoadingWrapper>Loading ...</LoadingWrapper>;
+  }
   return (
     <EarthContainer>
-      {/* TODO: 추후에 디자인 요소가 추가될 수 있음 */}
       <Globe pinList={pinList} />
     </EarthContainer>
   );
@@ -16,6 +24,18 @@ const Earth = () => {
 const EarthContainer = styled.div`
   width: 100%;
   height: 100%;
+`;
+
+const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  ${""}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Earth;

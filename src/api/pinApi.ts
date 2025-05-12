@@ -1,14 +1,18 @@
 // src/api/pinApi.ts
-import axios from "axios";
 import { PinResponse } from "../types/response";
 import apiClient from "./client";
 
-// export const fetchPinList = async () => {
-//   const response = await apiClient.get<GetPinResponse>("/pin");
-//   return response.data.data.pinList;
-// };
-export const fetchPinList = async () => {
-  const response = await axios.get<PinResponse>(`https://us2earth.click/pin`);
-  console.log("response", response);
+export const fetchPinList = async ({
+  region,
+  climate,
+}: {
+  region?: string | null;
+  climate?: string | null;
+}) => {
+  const params: Record<string, string> = {};
+  if (region) params.region = region;
+  if (climate) params.climate = climate;
+
+  const response = await apiClient.get<PinResponse>("/pin", { params });
   return response.data.data.pinList;
 };

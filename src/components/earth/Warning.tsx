@@ -7,24 +7,27 @@ import theme from "../../styles/theme";
 import DetailAnimation from "../animation/DetailAnimation";
 import { Pin } from "../../types/pin";
 import { climateIcons } from "../../constants/climateIcons";
+import { useNavigate } from "react-router-dom";
 
 interface WarningProps {
   pin: Pin;
 }
 
 const Warning = ({ pin }: WarningProps) => {
+  const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
   const ClimateIcon = climateIcons.find(
-    (item) => item.id === pin.climate[0]
+    (item) => item.id === pin.climateProblem[0]
   )?.icon;
   const ClimateTitle = climateIcons.find(
-    (item) => item.id === pin.climate[0]
+    (item) => item.id === pin.climateProblem[0]
   )?.label;
   return (
     <Container>
       <IconWrapper
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onClick={() => navigate(`news-detail/${pin.pinId}`)}
       >
         <GlowLayer $visible={hovered} />
         <WarningIconStyled />
