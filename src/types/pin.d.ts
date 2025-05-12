@@ -2,9 +2,9 @@ export interface Pin {
   pinId: number;
   latitude: number;
   longitude: number;
-  pinColor: string;
-  region: string[];
-  climate: Climate[];
+  region: string;
+  isLately: boolean;
+  climateProblem: Climate[];
 }
 
 export interface ScreenPin {
