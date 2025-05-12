@@ -12,7 +12,9 @@ import apiClient from "./client";
  * @returns 댓글 목록
  */
 export const fetchComments = async (newsId: number) => {
-  const response = await apiClient.get<CommentResponse>(`/comments/${newsId}`);
+  const response = await apiClient.get<CommentListResponse>(
+    `/comments/${newsId}`
+  );
   return response.data;
 };
 
