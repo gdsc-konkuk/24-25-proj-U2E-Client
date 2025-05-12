@@ -33,9 +33,7 @@ const LoadingWrapper = styled.div`
   font-size: 20px;
   font-weight: bold;
   ${""}
-  display: flex;
-  align-items: center;
-  justify-content: center;
+${rowFlex({justify: 'center', align: 'center'});
 `;
 
 export default Earth;
