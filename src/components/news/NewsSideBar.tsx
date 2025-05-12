@@ -15,8 +15,10 @@ const NewsSideBar = ({
   solution,
   relatedNews,
 }: NewsSideBarProps) => {
+  const hasRelatedNews = relatedNews && relatedNews.length > 0;
+
   return (
-    <SidebarContainer>
+    <Container>
       {newsUrl && (
         <LinkCard>
           <LinkCardTitle>Original Article</LinkCardTitle>
@@ -26,6 +28,7 @@ const NewsSideBar = ({
           </LinkButton>
         </LinkCard>
       )}
+
       {isLoading ? (
         <LoadingContainer>
           <LoadingSpinner />
@@ -39,34 +42,26 @@ const NewsSideBar = ({
           </SolutionContainer>
         )
       )}
-      {isLoading ? (
+
+      {hasRelatedNews && (
         <RelatedNewsCard>
           <LinkCardTitle>Related News (by Gemini)</LinkCardTitle>
-          <LinkDescription>Finding related articles...</LinkDescription>
-          <LoadingSpinnerSmall />
+          <LinkDescription>
+            Explore related articles on this topic
+          </LinkDescription>
+          {relatedNews.map((news, index) => (
+            <RelatedNewsLink
+              key={index}
+              href={news}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Related Article {index + 1}
+            </RelatedNewsLink>
+          ))}
         </RelatedNewsCard>
-      ) : (
-        relatedNews &&
-        relatedNews.length > 0 && (
-          <RelatedNewsCard>
-            <LinkCardTitle>Related News (by Gemini)</LinkCardTitle>
-            <LinkDescription>
-              Explore related articles on this topic
-            </LinkDescription>
-            {relatedNews.map((url, index) => (
-              <RelatedNewsLink
-                key={`related-${index}`}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`Related Article ${index + 1}`}
-              </RelatedNewsLink>
-            ))}
-          </RelatedNewsCard>
-        )
       )}
-    </SidebarContainer>
+    </Container>
   );
 };
 
@@ -110,7 +105,7 @@ const RelatedNewsLink = styled.a`
   }
 `;
 
-const SidebarContainer = styled.div`
+const Container = styled.div`
   flex: 3;
   padding: 30px 20px 30px 0;
   ${colFlex({ align: "start" })}
@@ -192,19 +187,4 @@ const LoadingSpinner = styled.div`
   }
 `;
 
-const LoadingSpinnerSmall = styled.div`
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(0, 99, 166, 0.1);
-  border-top-color: ${theme.colors.secondary};
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 10px auto;
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
 export default NewsSideBar;
