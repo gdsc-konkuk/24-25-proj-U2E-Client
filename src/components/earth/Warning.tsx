@@ -5,23 +5,27 @@ import WarningIcon from "../../assets/svgs/Warning.svg?react";
 import { rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
 import DetailAnimation from "../animation/DetailAnimation";
-import { Pin } from "../../types/pin";
+import { Climate, Pin } from "../../types/pin";
 import { climateIcons } from "../../constants/climateIcons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface WarningProps {
   pin: Pin;
 }
 
 const Warning = ({ pin }: WarningProps) => {
+  const [searchParams] = useSearchParams();
+  const filterParam = searchParams.get("filter");
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
-  const ClimateIcon = climateIcons.find(
-    (item) => item.id === pin.climateProblem[0]
-  )?.icon;
-  const ClimateTitle = climateIcons.find(
-    (item) => item.id === pin.climateProblem[0]
-  )?.label;
+
+  const climate =
+    filterParam && pin.climateProblem.includes(filterParam as Climate)
+      ? filterParam
+      : pin.climateProblem[0];
+  const ClimateIcon = climateIcons.find((item) => climate === item.id)?.icon;
+  const ClimateTitle = climateIcons.find((item) => climate === item.id)?.label;
+
   return (
     <Container>
       <IconWrapper
