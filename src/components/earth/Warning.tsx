@@ -5,21 +5,44 @@ import WarningIcon from "../../assets/svgs/Warning.svg?react";
 import { rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
 import DetailAnimation from "../animation/DetailAnimation";
+import { Climate, Pin } from "../../types/pin";
+import { climateIcons } from "../../constants/climateIcons";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
-const Warning = () => {
+interface WarningProps {
+  pin: Pin;
+}
+
+const Warning = ({ pin }: WarningProps) => {
+  const [searchParams] = useSearchParams();
+  const filterParam = searchParams.get("filter");
+  const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
+
+  const climate =
+    filterParam && pin.climateProblem.includes(filterParam as Climate)
+      ? filterParam
+      : pin.climateProblem[0];
+  const ClimateIcon = climateIcons.find((item) => climate === item.id)?.icon;
+  const ClimateTitle = climateIcons.find((item) => climate === item.id)?.label;
 
   return (
     <Container>
       <IconWrapper
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onClick={() => navigate(`news-detail/${pin.pinId}`)}
       >
         <GlowLayer $visible={hovered} />
         <WarningIconStyled />
         <MiniCard $visible={hovered}>
           <Title>
-            South Korea <Emoji>🌧️</Emoji>
+            {ClimateTitle}
+            {ClimateIcon && (
+              <ClimateIconWrapper>
+                <ClimateIcon />
+              </ClimateIconWrapper>
+            )}
           </Title>
           <AnimationContainer>
             <DetailAnimation dropNum={50} dropSpeed={2} boundary={20} />
@@ -96,7 +119,7 @@ const MiniCard = styled.div<{ $visible: boolean }>`
   position: absolute;
   left: 80px;
   top: -30px;
-  width: 250px;
+  width: 260px;
   height: 120px;
   padding: 12px 16px;
   border-radius: 10px;
@@ -136,8 +159,17 @@ const Title = styled.div`
   gap: 8px;
 `;
 
-const Emoji = styled.span`
-  font-size: 18px;
+const ClimateIconWrapper = styled.div`
+  width: 26px;
+  height: 26px;
+  ${rowFlex({ align: "center", justify: "center" })};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 export default Warning;
