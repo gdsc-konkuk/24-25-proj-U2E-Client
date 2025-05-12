@@ -12,6 +12,7 @@ export interface CommentItem {
   contents: string;
 }
 
+export type PinResponse = APIResponse<{ pinList: Pin[] }>;
 export type CommentListResponse = APIResponse<{ commentList: CommentItem[] }>;
 
 export type CreateCommentResponse = APIResponse<{ userId: number }>;
@@ -22,25 +23,7 @@ export type RecentNewsResponse = APIResponse<{ latelyNewsList: RecentNews[] }>;
 
 export type NewsResponse = APIResponse<News>;
 
-export interface PinData {
-  pinId: number;
-  latitude: number;
-  longitude: number;
-  pinColor: string;
-  region: string;
-  climate:
-    | "TEMPERATURE_RISE"
-    | "HEAVY_RAIN_OR_FLOOD"
-    | "FINE_DUST"
-    | "DROUGHT_OR_DESERTIFICATION"
-    | "SEA_LEVEL_RISE"
-    | "TYPHOON_OR_TORNADO"
-    | "WILDFIRE"
-    | "EARTHQUAKE"
-    | "DEFORESTATION"
-    | "BIODIVERSITY_LOSS";
-}
-
-export type GetPinResponse = APIResponse<{ pinList: PinData[] }>;
+export type fetchPinList = APIResponse<{ pinList: Pin[] }>;
 
 export type LoginResponse = APIResponse<{ userId: number; token: string }>;
+

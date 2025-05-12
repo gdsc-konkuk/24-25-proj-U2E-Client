@@ -13,7 +13,7 @@ import apiClient from "./client";
  */
 export const fetchComments = async (newsId: number) => {
   const response = await apiClient.get<CommentListResponse>(
-    `https://us2earth.click/comments/${newsId}`
+    `/comments/${newsId}`
   );
   return response.data;
 };

@@ -7,49 +7,15 @@ import generateStarfield from "./Starfield";
 import loadGeoMap from "./GeoMap";
 import Warning from "./Warning";
 import { latLonToVector3 } from "../../utils/geoUtils";
+import { Pin, ScreenPin } from "../../types/pin";
 
-interface Pin {
-  pinId: number;
-  latitude: number;
-  longitude: number;
-  pinColor: string;
-  region: string;
-  climate: string;
+interface GlobeProps {
+  pinList?: Pin[];
 }
 
-//  더미 핀 데이터 리스트 (실제 API 대체 예정)
-const dummyPinList: Pin[] = [
-  {
-    pinId: 1,
-    latitude: 37.5665,
-    longitude: 126.978,
-    pinColor: "Yellow",
-    region: "South Korea",
-    climate: "RAIN",
-  },
-  {
-    pinId: 2,
-    latitude: 48.8566,
-    longitude: 2.3522,
-    pinColor: "Red",
-    region: "France",
-    climate: "HEAT",
-  },
-  {
-    pinId: 3,
-    latitude: 40.7128,
-    longitude: -74.006,
-    pinColor: "Blue",
-    region: "USA",
-    climate: "FINE_DUST",
-  },
-];
-
-const Globe = () => {
+const Globe = ({ pinList }: GlobeProps) => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [screenPins, setScreenPins] = useState<
-    { pinId: number; x: number; y: number }[]
-  >([]);
+  const [screenPins, setScreenPins] = useState<ScreenPin[]>([]);
 
   // Three.js 기반 지구본 초기화 및 렌더링
   useEffect(() => {
@@ -98,7 +64,7 @@ const Globe = () => {
     const pinObjs: THREE.Object3D[] = [];
 
     // 📍 모든 핀을 지구본에 추가
-    dummyPinList.forEach((pin) => {
+    pinList?.forEach((pin) => {
       const pinObj = new THREE.Object3D();
       pinObj.userData = { ...pin, isPin: true };
       pinObj.position.copy(latLonToVector3(pin.latitude, pin.longitude, 2.01));
@@ -128,6 +94,9 @@ const Globe = () => {
     };
     animate();
 
+    //지구본을 왼쪽에 배치
+    //globeGroup.position.x = -1.5;
+
     return () => {
       renderer.dispose();
     };
@@ -136,11 +105,20 @@ const Globe = () => {
   // 렌더링: Three.js 캔버스 + DOM으로 핀 위치 표시
   return (
     <GlobeContainer ref={mountRef}>
-      {screenPins.map((pin) => (
-        <PinOverlayPositioner key={pin.pinId} x={pin.x} y={pin.y}>
-          <Warning />
-        </PinOverlayPositioner>
-      ))}
+      {screenPins.map((screenPin) => {
+        const pinData = pinList?.find((p) => p.pinId === screenPin.pinId);
+        if (!pinData) return null;
+
+        return (
+          <PinOverlayPositioner
+            key={screenPin.pinId}
+            x={screenPin.x}
+            y={screenPin.y}
+          >
+            <Warning pin={pinData} />
+          </PinOverlayPositioner>
+        );
+      })}
     </GlobeContainer>
   );
 };

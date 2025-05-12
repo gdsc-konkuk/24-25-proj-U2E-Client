@@ -1,24 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import RainIcon from "../../../assets/svgs/climate/Rain.svg?react";
-import TemperatureIcon from "../../../assets/svgs/climate/Temperature.svg?react";
-import TornadoIcon from "../../../assets/svgs/climate/Tornado.svg?react";
-import DustIcon from "../../../assets/svgs/climate/Dust.svg?react";
-import DroughtIcon from "../../../assets/svgs/climate/Drought.svg?react";
-import SeaLevelIcon from "../../../assets/svgs/climate/SeaLevel.svg?react";
-
 import { rowFlex } from "../../../styles/flexStyles";
 import { useSearchParams } from "react-router-dom";
-
-const filters = [
-  { id: "rain", icon: RainIcon },
-  { id: "temperature", icon: TemperatureIcon },
-  { id: "tornado", icon: TornadoIcon },
-  { id: "dust", icon: DustIcon },
-  { id: "drought", icon: DroughtIcon },
-  { id: "seaLevel", icon: SeaLevelIcon },
-];
+import { climateIcons } from "../../../constants/climateIcons";
 
 const FilterBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,7 +23,7 @@ const FilterBar = () => {
 
   return (
     <FilterContainer>
-      {filters.map(({ id, icon: Icon }) => {
+      {climateIcons.slice(0, 6).map(({ id, icon: Icon }) => {
         return (
           <IconWrapper
             key={id}
@@ -81,6 +65,7 @@ const IconWrapper = styled.div<{ $active?: boolean }>`
   svg {
     width: 100%;
     height: 100%;
+    object-fit: contain;
   }
 `;
 

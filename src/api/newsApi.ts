@@ -6,9 +6,7 @@ import apiClient from "./client";
  * @returns 최근 뉴스 목록
  */
 export const fetchRecentNews = async () => {
-  const response = await apiClient.get<RecentNewsResponse>(
-    `https://us2earth.click/news/lately`
-  );
+  const response = await apiClient.get<RecentNewsResponse>(`/news/lately`);
   return response.data;
 };
 
@@ -19,8 +17,6 @@ export const fetchRecentNews = async () => {
  * @returns 뉴스 상세 정보
  */
 export const fetchNewsContents = async (newsId: number) => {
-  const response = await apiClient.get<NewsResponse>(
-    `https://us2earth.click/news/${newsId}`
-  );
+  const response = await apiClient.get<NewsResponse>(`/news/${newsId}`);
   return response.data;
 };
