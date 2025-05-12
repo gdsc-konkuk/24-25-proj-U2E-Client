@@ -1,7 +1,6 @@
 import { CommentResponse, CreateCommentResponse } from "../types/response";
 import { CreateCommentRequest } from "../types/request";
 import apiClient from "./client";
-import axios from "axios";
 
 /**
  * 특정 뉴스의 댓글 목록을 조회하는 API
@@ -9,9 +8,7 @@ import axios from "axios";
  * @returns 댓글 목록
  */
 export const fetchComments = async (newsId: number) => {
-  const response = await axios.get<CommentResponse>(
-    `https://us2earth.click/comments/${newsId}`
-  );
+  const response = await apiClient.get<CommentResponse>(`/comments/${newsId}`);
   return response.data;
 };
 
