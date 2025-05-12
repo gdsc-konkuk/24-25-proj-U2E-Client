@@ -12,6 +12,11 @@ export interface CommentItem {
   contents: string;
 }
 
+interface GeminiResponse {
+  solution: string;
+  relatedNews: string[];
+}
+
 export type PinResponse = APIResponse<{ pinList: Pin[] }>;
 export type CommentListResponse = APIResponse<{ commentList: CommentItem[] }>;
 
@@ -26,4 +31,3 @@ export type NewsResponse = APIResponse<News>;
 export type fetchPinList = APIResponse<{ pinList: Pin[] }>;
 
 export type LoginResponse = APIResponse<{ userId: number; token: string }>;
-
