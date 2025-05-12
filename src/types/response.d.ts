@@ -1,46 +1,15 @@
-export interface CommentResponse {
-  code: number;
-  message: string;
-  data: {
-    commentList: {
-      userId: number;
-      name: string;
-      commentId: number;
-      contents: string;
-    }[];
-  };
-}
-
-export interface CreateCommentResponse {
-  code: number;
-  message: string;
-  data: {
-    userId: number;
-  };
-}
-
-interface DeleteCommentResponse {
-  code: number;
-  message: string;
-  data: {
-    commentId: number;
-  };
-}
-
-interface RecentNewsResponse {
+export interface APIResponse<T> {
   success: boolean;
   code: number;
   message: string;
-  data: {
-    latelyNewsList: RecentNews[];
-  };
+  data: T;
 }
 
-interface NewsResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  data: News;
+export interface CommentItem {
+  userId: number;
+  name: string;
+  commentId: number;
+  contents: string;
 }
 
 export interface PinResponse {
@@ -50,3 +19,18 @@ export interface PinResponse {
     pinList: Pin[];
   };
 }
+
+export type CommentListResponse = APIResponse<{ commentList: CommentItem[] }>;
+
+export type CreateCommentResponse = APIResponse<{ userId: number }>;
+
+export type DeleteCommentResponse = APIResponse<{ commentId: number }>;
+
+export type RecentNewsResponse = APIResponse<{ latelyNewsList: RecentNews[] }>;
+
+export type NewsResponse = APIResponse<News>;
+
+export type fetchPinList = APIResponse<{ pinList: Pin[] }>;
+
+export type LoginResponse = APIResponse<{ userId: number; token: string }>;
+

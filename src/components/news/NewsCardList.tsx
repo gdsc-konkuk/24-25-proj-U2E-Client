@@ -29,6 +29,7 @@ function NewsCardList({ newsData }: Props) {
 export default NewsCardList;
 
 const Container = styled.div`
+  width: 27%;
   position: absolute;
   top: 100px;
   right: 40px;
@@ -41,7 +42,7 @@ const Container = styled.div`
 `;
 
 const TitleContainer = styled.header`
-  width: 80%;
+  width: 100%;
   ${rowFlex({ justify: "space", align: "center" })}
 `;
 

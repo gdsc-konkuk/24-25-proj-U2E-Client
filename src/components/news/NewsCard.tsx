@@ -55,7 +55,7 @@ const Card = styled.div<{ $delay: number }>`
   border: 1px solid #2e3c55;
   padding: 16px;
   border-radius: 10px;
-  width: 80%;
+  width: 100%;
   color: white;
   backdrop-filter: blur(4px);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;

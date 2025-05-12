@@ -70,7 +70,7 @@ export const handlers = [
           code: 200,
           message: "OK",
           data: {
-            userId: body?.userId,
+            userName: body?.userName,
           },
         });
       }
@@ -78,7 +78,7 @@ export const handlers = [
       return HttpResponse.json(
         {
           code: 3000,
-          message: "댓글은 작성하는데에 실패하였습니다.",
+          message: "Failed to create comment.",
           timestamp: 1735805809539,
         },
         { status: 400 }
