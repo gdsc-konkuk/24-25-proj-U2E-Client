@@ -119,7 +119,7 @@ const MiniCard = styled.div<{ $visible: boolean }>`
   position: absolute;
   left: 80px;
   top: -30px;
-  width: 250px;
+  width: 260px;
   height: 120px;
   padding: 12px 16px;
   border-radius: 10px;
