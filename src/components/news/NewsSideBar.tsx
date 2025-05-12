@@ -84,8 +84,9 @@ const SolutionHeader = styled.h2`
 
 const SolutionContent = styled.div`
   font-size: 18px;
-  line-height: 30px;
-  color: ${theme.colors.textPrimary};
+  line-height: 26px;
+  font-weight: 500;
+  color: ${theme.colors.textSecondary};
 `;
 
 const RelatedNewsLink = styled.a`
@@ -132,13 +133,14 @@ const RelatedNewsCard = styled.div`
 `;
 
 const LinkCardTitle = styled.h3`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: ${theme.colors.textPrimary};
 `;
 
 const LinkDescription = styled.p`
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 500;
   color: ${theme.colors.textSecondary};
 `;
 
@@ -169,6 +171,7 @@ const LoadingContainer = styled.div`
 
 const LoadingText = styled.div`
   font-size: 18px;
+  font-weight: 500;
   color: ${theme.colors.textSecondary};
 `;
 
