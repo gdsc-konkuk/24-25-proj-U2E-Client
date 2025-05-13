@@ -23,7 +23,7 @@ const FilterBar = () => {
 
   return (
     <FilterContainer>
-      {climateIcons.slice(0, 6).map(({ id, icon: Icon }) => {
+      {climateIcons.map(({ id, icon: Icon }) => {
         return (
           <IconWrapper
             key={id}
