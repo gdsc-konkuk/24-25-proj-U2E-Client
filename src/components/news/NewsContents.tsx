@@ -2,8 +2,6 @@ import styled from "styled-components";
 import { colFlex, rowFlex } from "../../styles/flexStyles";
 import theme from "../../styles/theme";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getGeminiSolution } from "../../api/geminiApi";
 import NewsSideBar from "./NewsSideBar";
 
 interface NewsContentsProps {
@@ -21,23 +19,6 @@ const NewsContents = ({ newsData }: NewsContentsProps) => {
     newsBody,
     newsDate,
   } = newsData;
-  const [solution, setSolution] = useState<string>("");
-  const [relatedNews, setRelatedNews] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getGeminiSolution(newsBody)
-      .then((data) => {
-        setSolution(data.solution);
-        setRelatedNews(data.relatedNews);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching Gemini solution:", error);
-        setIsLoading(false);
-      });
-  }, [newsBody]);
 
   return (
     <PageLayout>
@@ -62,12 +43,7 @@ const NewsContents = ({ newsData }: NewsContentsProps) => {
         {newsImageUrl && <NewsImage src={newsImageUrl} alt={newsTitle} />}{" "}
         <MainContent>{newsBody}</MainContent>
       </Container>
-      <NewsSideBar
-        newsUrl={newsUrl}
-        isLoading={isLoading}
-        solution={solution}
-        relatedNews={relatedNews}
-      />
+      <NewsSideBar newsUrl={newsUrl} newsBody={newsBody} />
     </PageLayout>
   );
 };
