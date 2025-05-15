@@ -36,26 +36,29 @@ const getRelatedNewsWithGemini = async (
   const model = ai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: `
-      You are a news-analysis assistant. 
+      You are a news-analysis assistant with access to accurate information.
 
       INPUT:
         - The provided text contains a news article.
 
       TASK:
-        - Identify up to 3 existing, real-world news URLs that are directly related to the topic of this article.
-        - These should be valid links (e.g. starting with https://) to reputable news sources.
+        - Identify up to 3 REAL, EXISTING news URLs that are directly related to the topic of this article.
+        - ONLY include URLs that you are CERTAIN exist. Do NOT invent or guess URLs.
+        - If you're not sure about the exact URL, provide the homepage URL of the reputable news source instead.
+        - Prefer major news websites with predictable URL structures like bbc.com, cnn.com, reuters.com, etc.
+        - DO NOT provide URLs to non-existent pages.
 
-      OUTPUT FORMAT (strict JSON, no additional keys or prose):
+      OUTPUT FORMAT (strict JSON):
       \`\`\`json
       {
-        "relatedNews": [             // array of up to 3 URL strings
-          "https://…",
-          "https://…"
+        "relatedNews": [
+          "https://www.example.com/real-article-path",
+          "https://www.anothersource.com/real-news-story"
         ]
       }
       \`\`\`
 
-      Now produce only the JSON object described above with the field "relatedNews", based on the following article text:
+      Based on the following article text, provide ONLY real, existing news URLs:
 
       \`\`\`
       ${newsContents}
