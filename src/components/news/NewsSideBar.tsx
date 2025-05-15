@@ -1,21 +1,35 @@
 import styled from "styled-components";
 import theme from "../../styles/theme";
 import { colFlex } from "../../styles/flexStyles";
+import { useEffect, useState } from "react";
+import { getGeminiSolution } from "../../api/geminiApi";
 
 interface NewsSideBarProps {
   newsUrl: string;
-  isLoading: boolean;
-  solution: string;
-  relatedNews: string[];
+  newsBody: string;
 }
 
-const NewsSideBar = ({
-  newsUrl,
-  isLoading,
-  solution,
-  relatedNews,
-}: NewsSideBarProps) => {
+const NewsSideBar = ({ newsUrl, newsBody }: NewsSideBarProps) => {
+  const [solution, setSolution] = useState<string>("");
+  const [relatedNews, setRelatedNews] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const hasRelatedNews = relatedNews && relatedNews.length > 0;
+
+  useEffect(() => {
+    setIsLoading(true);
+    getGeminiSolution(newsBody)
+      .then((data) => {
+        setSolution(data.solution);
+        setRelatedNews(data.relatedNews);
+      })
+      .catch((error) => {
+        console.error("Error fetching Gemini solution:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [newsBody]);
 
   return (
     <Container>
@@ -37,7 +51,7 @@ const NewsSideBar = ({
       ) : (
         solution && (
           <SolutionContainer>
-            <SolutionHeader>Proposed Solutions (by Gemini)</SolutionHeader>
+            <SolutionHeader>Proposed Solutions (by Gemma)</SolutionHeader>
             <SolutionContent>{solution}</SolutionContent>
           </SolutionContainer>
         )
